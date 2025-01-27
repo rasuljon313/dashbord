@@ -1,13 +1,8 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react";
-import Modal from "./Modal";
-import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
-
-const Product = ({ collapsed, setCollapsed }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+import create from "../store/zustand";
+const Product = () => {
+  const { setEditMode, setSelectedProduct } = create();
   const products = [
     { id: "1", name: "Apple MacBook Pro 17", color: "Silver", category: "Laptop", price: "$2999" },
     { id: "2", name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: "$1999" },
@@ -16,41 +11,14 @@ const Product = ({ collapsed, setCollapsed }) => {
     { id: "5", name: "Apple Watch 5", color: "Red", category: "Wearables", price: "$999" },
   ];
 
-  const handleEdit = (product) => {
-    setSelectedProduct(product);
-    setIsOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-    setSelectedProduct(null);
-  };
-
-  const handleCreate = () => {
-    setSelectedProduct(null);
-    setIsOpen(true);
-  };
+  const edit = (product) => {
+    setSelectedProduct(product.name)
+    setEditMode(true)
+  }
 
   return (
     <>
       <div className="relative ">
-        <div className="flex justify-between bg-gray-50 items-center mb-4 ">
-          <button
-            className="p-2 w-10 h-10 bg-gray-400 text-white rounded transition-all duration-400 hover:bg-gray-500"
-            onClick={() => setCollapsed(!collapsed)}>
-            {collapsed ? (
-              <AiOutlineMenuUnfold className="w-6 h-6" />
-            ) : (
-              <AiOutlineMenuFold className="w-6 h-6" />
-            )}
-          </button>
-          <button
-            onClick={handleCreate}
-            className="px-4 py-2 text-sm bg-gray-400 text-white rounded transition-all duration-400 hover:bg-gray-500">
-            Add New Product
-          </button>
-        </div>
-
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-lg overflow-hidden">
   <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-white-700 dark:text-black">
     <tr>
@@ -79,12 +47,12 @@ const Product = ({ collapsed, setCollapsed }) => {
         <td className="px-6 py-2">
           <div className=" flex items-center gap-5">
           <button
-            onClick={() => handleEdit(product)}
+            onClick={() => edit(product)}
             className="  dark:text-green-600 hover:underline">
             <CiEdit />
           </button>
           <button
-            onClick={() => handleEdit(product)}
+            // onClick={() => handleEdit(product)}
             className="  dark:text-red-600 hover:underline">
             <FaRegTrashCan />
           </button>
@@ -94,9 +62,6 @@ const Product = ({ collapsed, setCollapsed }) => {
     ))}
   </tbody>
 </table>
-
-
-        <Modal isOpen={isOpen} onClose={handleClose} productData={selectedProduct} />
       </div>
     </>
   );
