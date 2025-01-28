@@ -18,7 +18,7 @@ const Product = () => {
 
   return (
     <>
-      <div className="relative ">
+      <div className="relative px-4">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-lg overflow-hidden">
   <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-white-700 dark:text-black">
     <tr>
