@@ -2,7 +2,7 @@ import { CiEdit } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
 import create from "../store/zustand";
 const Product = () => {
-  const { setEditMode, setSelectedProduct } = create();
+  const { setEditMode, setSelectedProduct, setDelateMode, setDelateName, } = create();
   const products = [
     { id: "1", name: "Apple MacBook Pro 17", color: "Silver", category: "Laptop", price: "$2999" },
     { id: "2", name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: "$1999" },
@@ -14,6 +14,10 @@ const Product = () => {
   const edit = (product) => {
     setSelectedProduct(product.name)
     setEditMode(true)
+  }
+  const handDElate = (product) => {
+    setDelateName(product)
+    setDelateMode(true)
   }
 
   return (
@@ -52,7 +56,7 @@ const Product = () => {
             <CiEdit />
           </button>
           <button
-            // onClick={() => handleEdit(product)}
+            onClick={() => handDElate(product.name)}
             className="  dark:text-red-600 hover:underline">
             <FaRegTrashCan />
           </button>

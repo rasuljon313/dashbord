@@ -6,10 +6,11 @@ import { TbBrandBooking } from "react-icons/tb";
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import create  from "../store/zustand";
 import Modal from "../components/Modal"
+import DelateModal from "../components/DelateModal";
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false); 
   const [selectedKeys, setSelectedKeys] = useState(["1"]);
-  const {isOpen, toggleIsOpen, editMode } = create()
+  const {isOpen, toggleIsOpen, editMode, delate } = create()
 const createProduct = () => {
   toggleIsOpen(true)
 }  
@@ -39,7 +40,7 @@ const createProduct = () => {
               <MdProductionQuantityLimits
                 className={`${collapsed ? "mx-auto" : "mr-5"}`}/>
               <Link
-                to="/product"
+                to="/"
                 className={`${
                   collapsed
                     ? "opacity-0 hidden"
@@ -103,6 +104,7 @@ const createProduct = () => {
         <Outlet />
         { isOpen &&  <Modal/> }
         { editMode &&  <Modal/> }
+        { delate && <DelateModal/>}
       </div>
     </div>
   );

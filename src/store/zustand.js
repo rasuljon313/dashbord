@@ -11,6 +11,12 @@ const useSidebarStore = create((set) => ({
   editMode: false,
   setEditMode: (mode) => set(() => ({ editMode: mode })),
 
+  delate: false,
+  setDelateMode: (mode) => set(() => ({ editMode: mode })),
+
+  delateNamet: null,
+  setDelateName: (product) => set(() => ({ selectedProduct: product })),
+  
   selectedProduct: null,
   setSelectedProduct: (product) => set(() => ({ selectedProduct: product })),
 }));

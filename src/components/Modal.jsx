@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import create  from "../store/zustand";
 const Modal = ({ productData }) => {
-  const {toggleIsOpen, setEditMode} = create()
+  const {toggleIsOpen, setEditMode, selectedProduct, setSelectedProduct} = create()
   const [formData, setFormData] = useState(
     productData || { name: "", price: "", category: "", description: "" }
   );
@@ -14,9 +14,11 @@ const Modal = ({ productData }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    setSelectedProduct("")
   };
 
   const closeModal = () => {
+    setSelectedProduct("")
     toggleIsOpen(false)
     setEditMode(false)
   }
@@ -37,7 +39,7 @@ const Modal = ({ productData }) => {
             <label className="block mb-2 text-sm font-medium">Name</label>
             <input
               name="name"
-              value={formData.name}
+              value={selectedProduct}
               onChange={handleChange}
               type="text"
               className="block w-full p-2.5 text-sm border rounded-lg dark:bg-gray-200 border-none outline-none"
