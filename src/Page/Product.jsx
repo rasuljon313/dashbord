@@ -6,7 +6,7 @@ const Product = () => {
   const { setEditMode, setSelectedProduct, setDelate, setDelateName, } = create();
   // const [confirmDelate, setConfirmdelate] = useState(null)
   const products = [
-    { id: "1", name: "Apple MacBook Pro 17", color: "Silver", category: "Laptop", price: "$2999" },
+    { id: "1", name: "Applwefwrfre MacBook wefxweffcwfxrfr", color: "Silver", category: "Laptop", price: "$2999" },
     { id: "2", name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: "$1999" },
     { id: "3", name: "Magic Mouse 2", color: "Black", category: "Accessories", price: "$99" },
     { id: "4", name: "Google Pixel Phone", color: "Gray", category: "Phone", price: "$799" },
