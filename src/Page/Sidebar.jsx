@@ -86,17 +86,17 @@ const createProduct = () => {
         className={`flex-1 transition-all duration-300 ease-in-out ${collapsed ? "ml-16" : "ml-64"}`}>
         <div className="flex justify-between bg-gray-50 items-center mb-4 p-4 shadow">
           <button
-            className="p-2 w-10 h-10 bg-gray-400 text-white rounded transition-all duration-400 hover:bg-gray-500"
+            className="p-2 w-10 h-10 bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500"
             onClick={() => setCollapsed(!collapsed)}>
-            {collapsed ? (
+            {collapsed ? 
               <AiOutlineMenuUnfold className="w-6 h-6" />
-            ) : (
+            : 
               <AiOutlineMenuFold className="w-6 h-6" />
-            )}
+            }
           </button>
           <button
             onClick={createProduct}
-            className="px-4 py-2 text-sm bg-gray-400 text-white rounded transition-all duration-400 hover:bg-gray-500">
+            className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">
             Add New Product
           </button>
         </div>

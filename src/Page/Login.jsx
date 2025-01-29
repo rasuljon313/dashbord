@@ -24,7 +24,7 @@ const Login = () => {
       if (element?.success) {
         localStorage.setItem("tokenxon", element?.data?.tokens?.accessToken?.token);
         toast.success(element?.message);
-        navigate("/product");
+        navigate("/");
       } else {
         toast.error("Username or password is wrong");
       }

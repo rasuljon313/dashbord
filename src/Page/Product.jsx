@@ -1,8 +1,10 @@
 import { CiEdit } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
 import create from "../store/zustand";
+// import { useState } from "react";
 const Product = () => {
-  const { setEditMode, setSelectedProduct, setDelateMode, setDelateName, } = create();
+  const { setEditMode, setSelectedProduct, setDelate, setDelateName, } = create();
+  // const [confirmDelate, setConfirmdelate] = useState(null)
   const products = [
     { id: "1", name: "Apple MacBook Pro 17", color: "Silver", category: "Laptop", price: "$2999" },
     { id: "2", name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: "$1999" },
@@ -15,9 +17,10 @@ const Product = () => {
     setSelectedProduct(product.name)
     setEditMode(true)
   }
-  const handDElate = (product) => {
-    setDelateName(product)
-    setDelateMode(true)
+  const handDElate = (id, name) => {
+    // setConfirmdelate(id)
+    setDelateName(name)
+    setDelate(true)
   }
 
   return (
@@ -52,12 +55,12 @@ const Product = () => {
           <div className=" flex items-center gap-5">
           <button
             onClick={() => edit(product)}
-            className="  dark:text-green-600 hover:underline">
+            className=" cursor-pointer dark:text-green-600 hover:underline">
             <CiEdit />
           </button>
           <button
-            onClick={() => handDElate(product.name)}
-            className="  dark:text-red-600 hover:underline">
+            onClick={() => handDElate(product?.id , product?.name)}
+            className=" cursor-pointer dark:text-red-600 hover:underline">
             <FaRegTrashCan />
           </button>
           </div>
