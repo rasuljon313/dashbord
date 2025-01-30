@@ -1,7 +1,7 @@
 import { CiEdit } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
 import create from "../store/zustand";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Product = () => {
   const { setEditMode, setSelectedProduct, setDelate, setDelateName } = create();
@@ -9,6 +9,26 @@ const Product = () => {
   const [selectedProduct, setSelectedProductDetails] = useState(null);
 
   const products = [
+    { id: "1", name: "Apple MacBook Pro 7 wxedfwef", color: "Silver", category: "Laptop", price: "$2999" },
+    { id: "2", name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: "$1999" },
+    { id: "3", name: "Magic Mouse 2", color: "Black", category: "Accessories", price: "$99" },
+    { id: "4", name: "Google Pixel Phone", color: "Gray", category: "Phone", price: "$799" },
+    { id: "5", name: "Apple Watch 5", color: "Red", category: "Wearables", price: "$999" },
+    { id: "1", name: "Apple MacBook Pro 7 wxedfwef", color: "Silver", category: "Laptop", price: "$2999" },
+    { id: "2", name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: "$1999" },
+    { id: "3", name: "Magic Mouse 2", color: "Black", category: "Accessories", price: "$99" },
+    { id: "4", name: "Google Pixel Phone", color: "Gray", category: "Phone", price: "$799" },
+    { id: "5", name: "Apple Watch 5", color: "Red", category: "Wearables", price: "$999" },
+    { id: "1", name: "Apple MacBook Pro 7 wxedfwef", color: "Silver", category: "Laptop", price: "$2999" },
+    { id: "2", name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: "$1999" },
+    { id: "3", name: "Magic Mouse 2", color: "Black", category: "Accessories", price: "$99" },
+    { id: "4", name: "Google Pixel Phone", color: "Gray", category: "Phone", price: "$799" },
+    { id: "5", name: "Apple Watch 5", color: "Red", category: "Wearables", price: "$999" },
+    { id: "1", name: "Apple MacBook Pro 7 wxedfwef", color: "Silver", category: "Laptop", price: "$2999" },
+    { id: "2", name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: "$1999" },
+    { id: "3", name: "Magic Mouse 2", color: "Black", category: "Accessories", price: "$99" },
+    { id: "4", name: "Google Pixel Phone", color: "Gray", category: "Phone", price: "$799" },
+    { id: "5", name: "Apple Watch 5", color: "Red", category: "Wearables", price: "$999" },
     { id: "1", name: "Apple MacBook Pro 7 wxedfwef", color: "Silver", category: "Laptop", price: "$2999" },
     { id: "2", name: "Microsoft Surface Pro", color: "White", category: "Laptop PC", price: "$1999" },
     { id: "3", name: "Magic Mouse 2", color: "Black", category: "Accessories", price: "$99" },
@@ -43,6 +63,24 @@ const Product = () => {
     setSelectedProductDetails(null);
   };
 
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    };
+    
+    if (modalOpen) {
+      window.addEventListener("keydown", handleEsc);
+    } else {
+      window.removeEventListener("keydown", handleEsc);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [modalOpen]);
+
   return (
     <>
       <div className="relative px-4">
@@ -61,8 +99,7 @@ const Product = () => {
               <tr
                 key={product.id}
                 className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg cursor-pointer`}
-                onClick={() => openModal(product)}
-              >
+                onClick={() => openModal(product)}>
                 <th scope="row" className="px-6 py-2 font-medium w-[200px] whitespace-nowrap text-black">
                   {shortname(product?.name)}
                 </th>
@@ -71,10 +108,20 @@ const Product = () => {
                 <td className="px-6 py-2 text-black">{product.price}</td>
                 <td className="px-6 py-2">
                   <div className="flex items-center gap-5">
-                    <button onClick={() => edit(product)} className="cursor-pointer dark:text-green-600 hover:underline">
+                    <button 
+                      onClick={(e) => { 
+                        e.stopPropagation();
+                        edit(product);
+                      }} 
+                      className="cursor-pointer dark:text-green-600 hover:underline">
                       <CiEdit />
                     </button>
-                    <button onClick={() => handDElate(product?.id, product?.name)} className="cursor-pointer dark:text-red-600 hover:underline">
+                    <button 
+                      onClick={(e) => { 
+                        e.stopPropagation();
+                        handDElate(product?.id, product?.name);
+                      }} 
+                      className="cursor-pointer dark:text-red-600 hover:underline">
                       <FaRegTrashCan />
                     </button>
                   </div>
@@ -101,5 +148,3 @@ const Product = () => {
 };
 
 export default Product;
-
-
