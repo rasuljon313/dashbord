@@ -1,15 +1,15 @@
-import { CiEdit, CiSearch } from "react-icons/ci";
+import { CiEdit,CiSearch } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
-import create from "../store/zustand";
+import useSidebarStore from "../store/zustand";
 import { useState, useEffect } from "react";
 import Nav from "../components/Nav";
 import axios from "axios";
 
 const Product = () => {
-  const { setEditMode, setSelectednameUz,setSelectednameEn,setSelectednameRu,setSelecteddescrUz,setSelecteddescrRU,setSelecteddescrEN,setSelectedPrice, setDelate, setDelateName,setSelectedSize,setSelectedCategory, } = create();
+  const { 
+    setEditMode, setSelectednameUz,setSelectednameEn,setSelectIDUrl,setSelectednameRu,setSelecteddescrUz,setSelecteddescrRU,setSelecteddescrEN,setSelectedPrice, setDelate, setDelateName,setSelectedSize,setSelectedCategory,setselectchair,setselecttable,seta,serResponse,res,setDelatee, } = useSidebarStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProductDetails] = useState(null);
-  const [res, setResponse] = useState(null);
   const token = localStorage.getItem("token");
 
   const fetchProducts = async () => {
@@ -19,7 +19,7 @@ const Product = () => {
           Authorization: `Bearer ${token}`
         }
       });
-      setResponse(response.data.data); 
+      serResponse(response.data.data); 
     } catch (error) {
       console.error('Xatolik yuz berdi:', error);
     }
@@ -32,24 +32,28 @@ const Product = () => {
 
   const edit = (product) => {
     console.log(product);
-    
+    setSelectIDUrl(product?.id);
     setSelectednameUz(product?.nameUz);
     setSelectednameRu(product?.nameRu);
     setSelectednameEn(product?.nameEn);
     setSelecteddescrUz(product?.descriptionUz);
-    setSelecteddescrRU(product?.descriptionRu)
-    setSelecteddescrEN(product?.descriptionEn)
-    setSelectedSize(product?.sizes?.[0]?.size)
-    setSelectedPrice(product?.sizes?.[0]?.price)
-    setSelectedCategory(product?.category?.nameUz)
+    setSelecteddescrRU(product?.descriptionRu);
+    setSelecteddescrEN(product?.descriptionEn);
+    setSelectedSize(product?.sizes?.[0]?.size);
+    setSelectedPrice(product?.sizes?.[0]?.price);
+    setselectchair(product?.sizes?.[0]?.chair);
+    setselecttable(product?.sizes?.[0]?.table);
+    setSelectedCategory(product?.category?.nameUz);
     setEditMode(true);
+    seta(product);
   };
 
   const handDElate = (id, name) => {
-    console.log("Deleting product:", id, name);
+    setDelatee(id);
     setDelateName(name);
     setDelate(true);
   };
+
 
   const shortDescription = (descr) => {
     const words = descr.split(/\s+/); 
@@ -81,7 +85,7 @@ const Product = () => {
         closeModal();
       }
     };
-
+    
     if (modalOpen) {
       window.addEventListener("keydown", handleEsc);
     } else {
@@ -92,11 +96,10 @@ const Product = () => {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [modalOpen]);
-
   return (
     <>
       <div className="relative px-4">
-        <div className="flex gap-[50px]">
+        <div className="flex gap-[50px] mb-[15px]">
           <div className="ml-auto relative">
             <input
               type="text"
@@ -125,13 +128,9 @@ const Product = () => {
           </thead>
           <tbody>
             {res?.map((product, index) => (
-              <tr
-                key={product.id}
-                className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg cursor-pointer`}
-                onClick={() => openModal(product)}>
-                <th className="px-6 py-2 font-medium w-[180px] text-black leading-[24px]">
-                  {shortName(product?.nameUz)}
-                </th>
+              <tr key={product.id} onClick={() => openModal(product)}
+                className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg cursor-pointer`}>
+                <th className="px-6 py-2 font-medium w-[180px] text-black leading-[24px]">{shortName(product?.nameUz)}</th>
                 <td className="px-2 py-2 text-black w-[200px]">{shortDescription(product?.descriptionUz)}</td>
                 <td className="px-2 py-2 text-black w-[150px]">{product.category?.nameUz}</td>
                 <td className="px-2 py-2 text-black w-[100px] "><img src={`https://realauto.limsa.uz/api/uploads/images/${product.imageUrl}`} alt="" /></td>
@@ -142,19 +141,11 @@ const Product = () => {
                 <td className="px-2 py-2 text-black w-[130px] ">$ {product.sizes?.[0]?.price}</td>
                 <td className="w-[130px]">
                   <div className="flex items-center">
-                    <button 
-                      onClick={(e) => { 
-                        e.stopPropagation(); 
-                        edit(product);
-                      }} 
+                    <button onClick={(e) => { e.stopPropagation(); edit(product)}} 
                       className="w-[50px] h-10 flex justify-center items-center dark:text-green-600 cursor-pointer">
                       <CiEdit className="w-[20px] h-full" />
                     </button>
-                    <button 
-                      onClick={(e) => { 
-                        e.stopPropagation(); 
-                        handDElate(product?.id, product?.nameUz); 
-                      }}
+                    <button onClick={(e) => {  e.stopPropagation();  handDElate(product?.id, product?.nameUz) }}
                       className="w-[50px] h-10 flex justify-center items-center cursor-pointer dark:text-red-600">
                       <FaRegTrashCan className="w-[15px] h-full" />
                     </button>

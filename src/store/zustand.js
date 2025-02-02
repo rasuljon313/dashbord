@@ -24,12 +24,16 @@ const useSidebarStore = create((set) => ({
   selectednameEn: null,
   setSelectednameEn: (product) => set(() => ({ selectednameEn: product })),
 
+  delatee: "",
+  setDelatee: (product) => set(() => ({ delatee: product })),
+
   desUz: null,
   setSelecteddescrUz: (product) => set(() => ({ desUz: product })),
   desRu: null,
   setSelecteddescrRU: (product) => set(() => ({ desRu: product })),
   desEn: null,
   setSelecteddescrEN: (product) => set(() => ({ desEn: product })),
+
 
   editPrice: null,
   setSelectedPrice: (product) => set(() => ({ editPrice: product })),
@@ -39,6 +43,26 @@ const useSidebarStore = create((set) => ({
 
   editCategory: null,
   setSelectedCategory: (product) => set(() => ({ editCategory: product })),
+
+  chair: null,
+  setselectchair: (product) => set(() => ({ chair: product })),
+
+  table: null,
+  setselecttable: (product) => set(() => ({ table: product })),
+
+  getImg: null,
+  setGetimg: (product) => set(() => ({ getImg: product })),
+
+  editIdUrl: "",
+  setSelectIDUrl: (id) => set(() => ({ editIdUrl: id })),
+
+  a: [],
+  seta: (product) => set(() => ({ a: product })),
+
+
+  res: null,
+  serResponse: (product) => set(() => ({ res: product })),
+  
 
   // openCategoryM:false,
   // setOpenCategoryM: (mode) => set(() => ({ openCategoryM: mode })),
