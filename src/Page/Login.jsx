@@ -11,6 +11,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+
   function submit(e) {
     e.preventDefault();
     setLoading(true);
@@ -20,9 +21,14 @@ const Login = () => {
       password: password,
     })
     .then((response) => {
+      // console.log(response);
+      
       const element = response.data;
+      console.log(element);
+      
+      
       if (element?.success) {
-        localStorage.setItem("tokenxon", element?.data?.tokens?.accessToken?.token);
+        // localStorage.setItem("tokenxon", element?.data?.tokens?.accessToken?.token);
         toast.success(element?.message);
         navigate("/");
       } else {

@@ -4,9 +4,10 @@ import create from "../store/zustand";
 function DelateModal() {
   const { delateName, setDelate } = create();
 
-  const shortname = (name) => {
-    const firstTwoWords = name.split(' ').slice(0, 2).join(' ');
-    return `${firstTwoWords}`;
+  const shortName = (name) => {
+    if (!name) return "Nomsiz"; 
+    const words = name.split(/\s+/); 
+    return words.length > 3 ? `${words.slice(0, 3).join(" ")}...` : name;
   };
 
   const confirmDelate = () => {
@@ -14,10 +15,10 @@ function DelateModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#14141480] bg-opacity-50">
-    <div className="relative w-full flex flex-col items-center max-w-md p-4 rounded-lg shadow bg-gray-300">
-      <div className="flex items-center justify-between w-[350px] p-4 border-b dark:border-gray-500">
-        <h3 className="truncate">Are you sure! You want to <span className="text-red-600">Delete</span> {shortname(delateName)}?</h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div className="relative w-full max-w-2xl p-8 rounded-2xl shadow-xl bg-white">
+      <div className="flex items-center justify-between pb-4 border-b border-gray-300">
+        <h3 className="truncate">Are you sure! You want to <span className="text-red-600">Delete</span> {shortName(delateName)}?</h3>
         <button onClick={confirmDelate} className="transition-all duration-300 hover:text-red-600 hover:bg-red-200 cursor-pointer rounded-lg w-8 h-8 flex items-center justify-center dark:hover:text-red absolute top-2 right-2">
           <IoIosCloseCircleOutline className="w-5 h-5" />
         </button>
