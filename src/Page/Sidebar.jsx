@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
-// import { TbBrandBooking } from "react-icons/tb";
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import create  from "../store/zustand";
 import Modal from "../components/Modal"
@@ -10,13 +9,14 @@ import DelateModal from "../components/DelateModal";
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false); 
   const [selectedKeys, setSelectedKeys] = useState(["1"]);
-  const {isOpen,
-    //  toggleIsOpen,
-      editMode, delate } = create()
-// const createProduct = () => {
-//   toggleIsOpen(true)
-// }  
-
+  const {isOpen,editMode, delate } = create()
+  const navigate = useNavigate("")
+const  delatetoken = (e) => {
+  e.preventDefault();
+   localStorage.removeItem("token")
+    navigate("/login")
+  window.location.reload();
+}
   return (
     <div className="flex h-screen">
       <div
@@ -25,7 +25,7 @@ const Sidebar = () => {
         <div className="flex justify-between items-center p-4 bg-gray-200">
           <Link
             to="/"
-            className={`flex items-center justify-center transition-all duration-300 ease-in-out ${collapsed ? "h-8 w-8" : "h-10 w-full bg-gray-400"}`}>
+            className={`flex items-center justify-center transition-all duration-300 ease-in-out ${collapsed ? "h-8 w-8" : "h-10 w-full bg-gray-300"}`}>
             <span
               className={`text-center font-bold transition-all duration-300 ${collapsed ? "text-xs" : "text-lg"}`}>
               Logo
@@ -35,21 +35,6 @@ const Sidebar = () => {
 
         <div className="mt-10">
           <ul className="space-y-4">
-            {/* <li
-              className={`flex items-center px-4 py-2 hover:bg-gray-400 ${
-                selectedKeys.includes("1") ? "bg-gray-400" : ""}`}
-              onClick={() => setSelectedKeys(["1"])}>
-              <MdProductionQuantityLimits
-                className={`${collapsed ? "mx-auto" : "mr-5"}`}/>
-              <Link
-                to="/"
-                className={`${
-                  collapsed
-                    ? "opacity-0 hidden"
-                    : "opacity-100 block transition-all duration-300"}`}>
-                Product
-              </Link>
-            </li> */}
 <Link
   to="/"
   className="w-full"
@@ -89,37 +74,6 @@ const Sidebar = () => {
     </span>
   </li>
 </Link>
-
-
-            {/* <li
-              className={`flex items-center px-4 py-2 hover:bg-gray-400 ${
-                selectedKeys.includes("2") ? "bg-gray-400" : ""}`}
-              onClick={() => setSelectedKeys(["2"])}>
-              <BiCategory className={`${collapsed ? "mx-auto" : "mr-5"}`} />
-              <Link
-                to="/category"
-                className={`${
-                  collapsed
-                    ? "opacity-0 hidden"
-                    : "opacity-100 block transition-all duration-300"}`}>
-                Categories
-              </Link>
-            </li> */}
-
-            {/* <li
-              className={`flex items-center px-4 py-2 hover:bg-gray-400 ${
-                selectedKeys.includes("3") ? "bg-gray-400" : ""}`}
-              onClick={() => setSelectedKeys(["3"])}>
-              <TbBrandBooking className={`${collapsed ? "mx-auto" : "mr-5"}`} />
-              <Link
-                to="/brand"
-                className={`${
-                  collapsed
-                    ? "opacity-0 hidden"
-                    : "opacity-100 block transition-all duration-300"}`}>
-                Brands
-              </Link>
-            </li> */}
           </ul>
         </div>
       </div>
@@ -140,9 +94,8 @@ const Sidebar = () => {
       )}
     </button>
     <button
-      // onClick={createProduct}
-      className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500"
-    >
+      onClick={(e)=>delatetoken(e)}
+      className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">
       log out
     </button>
   </div>

@@ -11,33 +11,40 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-
   function submit(e) {
     e.preventDefault();
     setLoading(true);
-
-    axios.post("https://realauto.limsa.uz/api/auth/signin", {
-      phone_number: number,
+  
+    axios.post("http://178.128.204.58:8888/auth/login", {
+      username: number,
       password: password,
     })
     .then((response) => {
-      // console.log(response);
+      console.log("Server Response:", response);
       
-      const element = response.data;
-      console.log(element);
+      const status = response?.status;
+      const accessToken = response?.data?.access_token;
       
+      console.log("Access Token:", accessToken);
       
-      if (element?.success) {
-        // localStorage.setItem("tokenxon", element?.data?.tokens?.accessToken?.token);
-        toast.success(element?.message);
-        navigate("/");
+      if (status === 200 || status === 201) {
+        console.log("Login success:", response);
+  
+        if (accessToken) {
+          localStorage.setItem('token', accessToken);
+          console.log("Token saved to localStorage");
+        } else {
+          console.error("No access token found in the response");
+        }
+        
+        navigate("/"); 
       } else {
-        toast.error("Username or password is wrong");
+        toast.error(response?.data?.message || "Username or password is wrong");
       }
     })
     .catch((error) => {
       console.error("Error:", error);
-      toast.error("Error occurred while logging in");
+      toast.error(error?.response?.data?.message || "Error occurred while logging in");
     })
     .finally(() => {
       setLoading(false);
@@ -45,6 +52,7 @@ const Login = () => {
       setPassword('');
     });
   }
+  
 
   return (
     <>

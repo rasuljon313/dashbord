@@ -11,14 +11,14 @@ import Product from "../Page/Product";
 import { useEffect } from "react";
 
 const App = () => {
-  const token = localStorage.getItem("tokenxon");
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");  // Agar token topilmasa, login sahifasiga yo'naltirish
+      navigate("/login");
     }
-  }, [token, navigate]);  // useEffect uchun navigate ni ham dependensiya sifatida qo'shdik
+  }, [token, navigate]);
 
   return (
     <Routes>

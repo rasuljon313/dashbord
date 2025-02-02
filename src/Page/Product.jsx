@@ -10,8 +10,7 @@ const Product = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProductDetails] = useState(null);
   const [res, setResponse] = useState(null);
-  const token = localStorage.getItem("tokenxon");
-  console.log(res);
+  const token = localStorage.getItem("token");
 
   const fetchProducts = async () => {
     try {
@@ -129,8 +128,7 @@ const Product = () => {
               <tr
                 key={product.id}
                 className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg cursor-pointer`}
-                onClick={() => openModal(product)}
-              >
+                onClick={() => openModal(product)}>
                 <th className="px-6 py-2 font-medium w-[180px] text-black leading-[24px]">
                   {shortName(product?.nameUz)}
                 </th>

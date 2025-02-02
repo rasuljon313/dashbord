@@ -19,7 +19,7 @@ const Modal = () => {
   // const [i, setI] = useState("");
   const [select, setSelect] = useState([]);
   const [selectedId, setSelectedId] = useState("");
-  const token = localStorage.getItem("tokenxon")
+  const token = localStorage.getItem("token")
   
   const postData = async () => {
     try {
@@ -138,6 +138,7 @@ useEffect(() => {
 };
 
   const closeModal = () => {
+    setSelectednameUz("")
     toggleIsOpen(false)
     setEditMode(false)
   }
@@ -165,37 +166,37 @@ useEffect(() => {
           <div className="grid grid-cols-3 gap-6">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Name (UZ)</label>
-              <input name="nameUz" value={selectednameUz} onChange={(e) => setSelectednameUz(e.target.value)} placeholder="UZ" type="text" required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] " />
+              <input name="nameUz" value={selectednameUz || "" } onChange={(e) => setSelectednameUz(e.target.value)} placeholder="UZ" type="text" required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] " />
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Name (RU)</label>
-              <input name="nameRu" value={editMode ? selectednameRu : nameRu} onChange={(e) => setNameRu(e.target.value)}  placeholder="RU" type="text" required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] " />
+              <input name="nameRu" value={editMode ? selectednameRu : nameRu || ""} onChange={(e) => setNameRu(e.target.value)}  placeholder="RU" type="text" required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] " />
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Name (EN)</label>
-              <input name="nameEn" value={editMode ? selectednameEn : nameEn} onChange={(e) => setNameEn(e.target.value)} placeholder="EN" type="text" required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
+              <input name="nameEn" value={editMode ? selectednameEn : nameEn || ""} onChange={(e) => setNameEn(e.target.value)} placeholder="EN" type="text" required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
             </div>
           </div>
   
           <div className="grid grid-cols-3 gap-6 mt-4">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Description (UZ)</label>
-              <textarea name="descriptionUz" placeholder="UZ" value={editMode ? desUz : descrUz} required onChange={(e) => setDescriptionUz(e.target.value)} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] h-24"></textarea>
+              <textarea name="descriptionUz" placeholder="UZ" value={editMode ? desUz : descrUz || ""} required onChange={(e) => setDescriptionUz(e.target.value)} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] h-24"></textarea>
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Description (RU)</label>
-              <textarea name="descriptionRu"  placeholder="RU" value={editMode ? desRu : descrRu} required onChange={(e) => setDescriptionRu(e.target.value)} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] h-24"></textarea>
+              <textarea name="descriptionRu"  placeholder="RU" value={editMode ? desRu : descrRu || ""} required onChange={(e) => setDescriptionRu(e.target.value)} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] h-24"></textarea>
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Description (EN)</label>
-              <textarea name="descriptionEn"  placeholder="EN" value={editMode ? desEn : descrEn} required onChange={(e) => setDescriptionEn(e.target.value)} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] h-24"></textarea>
+              <textarea name="descriptionEn"  placeholder="EN" value={editMode ? desEn : descrEn || ""} required onChange={(e) => setDescriptionEn(e.target.value)} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] h-24"></textarea>
             </div>
           </div>
   
           <div className="mt-4 grid grid-cols-3 gap-6">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Price</label>
-              <input name="price"  type="number" placeholder="Price" value={editMode ? editPrice : price} onChange={(e) => setPrice(e.target.value) } required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
+              <input name="price"  type="number" placeholder="Price" value={editMode ? editPrice : price || ""} onChange={(e) => setPrice(e.target.value) } required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Image</label>
@@ -214,19 +215,19 @@ useEffect(() => {
           <div className="grid grid-cols-3 gap-6 mt-4">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Size</label>
-              <input name="size"  type="text" placeholder="Size (e.g., M, L)" value={editMode ? editSize : size} onChange={(e) => setSize(e.target.value)} required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
+              <input name="size"  type="text" placeholder="Size (e.g., M, L)" value={editMode ? editSize : size || ""} onChange={(e) => setSize(e.target.value)} required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Chair</label>
-              <input name="chair"  type="text" placeholder="Chair" value={chair} onChange={(e) => setChair(e.target.value)} required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
+              <input name="chair"  type="text" placeholder="Chair" value={chair || ""} onChange={(e) => setChair(e.target.value)} required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Table</label>
-              <input name="table"  type="text" placeholder="Tables" value={table} onChange={(e) => setTable(e.target.value)} required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
+              <input name="table"  type="text" placeholder="Tables" value={table || ""} onChange={(e) => setTable(e.target.value)} required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" />
             </div>
             <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">Category</label>
-            <select value={ editMode ? editCategory : +selectedId} onChange={handleSelectChange} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" >
+            <select value={ editMode ? editCategory : +selectedId || ""} onChange={handleSelectChange} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]" >
         <option value="">Choose category</option>
         {select.length > 0 ? (
           select.map((category) => (
