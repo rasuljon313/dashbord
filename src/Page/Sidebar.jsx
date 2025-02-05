@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
@@ -6,10 +6,13 @@ import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import create  from "../store/zustand";
 import Modal from "../components/Modal"
 import DelateModal from "../components/DelateModal";
+import CategoryM from "../components/CategoryM";
+import tree from "../assets/2025-01-28 15.42.39.jpg";
+import logo from "../assets/Chinar Mebel (1).png";
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false); 
-  const [selectedKeys, setSelectedKeys] = useState(["1"]);
-  const {isOpen,editMode, delate } = create()
+  // const [selectedKeys, setSelectedKeys] = useState(["1"]);
+  const {isOpen,editMode, delate,isOpenCategory,editModeCategory } = create()
   const navigate = useNavigate("")
 const  delatetoken = (e) => {
   e.preventDefault();
@@ -17,6 +20,16 @@ const  delatetoken = (e) => {
     navigate("/login")
   window.location.reload();
 }
+const [selectedKeys, setSelectedKeys] = useState(() => {
+  const savedKey = localStorage.getItem("selectedSidebarKey");
+  return savedKey ? [savedKey] : ["1"];
+});
+
+useEffect(() => {
+  localStorage.setItem("selectedSidebarKey", selectedKeys[0]);
+}, [selectedKeys]); 
+
+
   return (
     <div className="flex h-screen">
       <div
@@ -25,10 +38,14 @@ const  delatetoken = (e) => {
         <div className="flex justify-between items-center p-4 bg-gray-200">
           <Link
             to="/"
-            className={`flex items-center justify-center transition-all duration-300 ease-in-out ${collapsed ? "h-8 w-8" : "h-10 w-full bg-gray-300"}`}>
+            className={`flex w-[100%] items-center justify-center transition-all duration-300 ease-in-out ${collapsed ? "h-8 w-8" : "h-10 w-full bg-gray-300"}`}>
             <span
-              className={`text-center font-bold transition-all duration-300 ${collapsed ? "text-xs" : "text-lg"}`}>
-              Logo
+              className={`text-center font-bold w-[100%] transition-all duration-300 ${collapsed ? "text-xs" : "text-lg"}`}>
+<div className="flex items-center ml-2 gap-6">
+  <img className="w-[25px] h-[25px] mr-2" src={tree} alt="Tree" />
+  <img
+    className={`h-[30px] ${collapsed ? "w-0" : "w-auto"}`}src={logo} alt="Logo"/>
+</div>
             </span>
           </Link>
         </div>
@@ -104,6 +121,8 @@ const  delatetoken = (e) => {
         { isOpen &&  <Modal/> }
         { editMode &&  <Modal/> }
         { delate && <DelateModal/>}
+        {isOpenCategory && <CategoryM/>}
+        {editModeCategory && <CategoryM/>}
       </div>
     </div>
   );

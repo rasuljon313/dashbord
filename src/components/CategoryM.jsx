@@ -1,0 +1,153 @@
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import create from "../store/zustand";
+import axios from "axios";
+import { useState } from "react";
+
+function CategoryM() {
+  const {
+    setSelectedCategnameUz,
+    setSelectedCategnameRu,
+    setSelectedCategnameEn,
+    selectedCategnameUz,
+    selectedCategnameRu,
+    selectedCategnameEn,
+    editModeCategory,
+    toggleIsOpenCategory,
+    setEditModeCategory,
+    editIdUrlCateg,
+    serResponseC,
+    resc,
+  } = create();
+  const token = localStorage.getItem("token");
+const [loading, setLoading] = useState(false);
+  const postData = async () => {
+    try {
+      const productData = {
+        nameUz: selectedCategnameUz,
+        nameRu: selectedCategnameRu,
+        nameEn: selectedCategnameEn,
+      };
+
+      const url = editModeCategory
+        // ? `http://178.128.204.58:8888/categories/${editIdUrlCateg}`
+        // : "http://178.128.204.58:8888/categories";
+        ? `https://mebelbot.limsa.uz/categories/${editIdUrlCateg}`
+        : "https://mebelbot.limsa.uz/categories";
+
+      const method = editModeCategory ? "PUT" : "POST";
+
+      const response = await axios({
+        method: method,
+        url: url,
+        data: productData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!editModeCategory) {
+        serResponseC([...resc, response.data.data]);
+      } else {
+        const updatedProducts = resc.map(product => 
+          product.id === response.data.data.id ? response.data.data : product
+        );
+        serResponseC(updatedProducts);
+      }
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true)
+    await postData();
+    setLoading(false)
+    toggleIsOpenCategory(false);
+    setEditModeCategory(false);
+    setSelectedCategnameUz("");
+    setSelectedCategnameRu("");
+    setSelectedCategnameEn("");
+  };
+
+  const closeModal = () => {
+    setSelectedCategnameUz("");
+    setSelectedCategnameRu("");
+    setSelectedCategnameEn("");
+    toggleIsOpenCategory(false);
+    setEditModeCategory(false);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl p-8 rounded-2xl shadow-xl bg-gray-200">
+        <div className="flex items-center justify-between pb-4 border-b border-gray-300">
+          <h3 className="text-2xl font-semibold text-gray-800">
+            {loading ? "Loading..." : editModeCategory ? "Edit Name" : "Create New Name"}
+          </h3>
+          <button
+            onClick={closeModal}
+            className="text-gray-500 hover:text-red-500 transition-all"
+          >
+            <IoIosCloseCircleOutline size={32} />
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-6 py-6 flex flex-col">
+          <div className="grid grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Name (UZ)
+              </label>
+              <input
+                name="nameUz"
+                value={selectedCategnameUz || ""}
+                onChange={(e) => setSelectedCategnameUz(e.target.value)}
+                placeholder="UZ"
+                type="text"
+                required
+                className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Name (RU)
+              </label>
+              <input
+                name="nameRu"
+                value={selectedCategnameRu || ""}
+                onChange={(e) => setSelectedCategnameRu(e.target.value)}
+                placeholder="RU"
+                type="text"
+                required
+                className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Name (EN)
+              </label>
+              <input
+                name="nameEn"
+                value={selectedCategnameEn || ""}
+                onChange={(e) => setSelectedCategnameEn(e.target.value)}
+                placeholder="EN"
+                type="text"
+                required
+                className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red"
+          >
+            {loading ? "Loading..." : editModeCategory ? "Update Name" : "Add Name"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default CategoryM;

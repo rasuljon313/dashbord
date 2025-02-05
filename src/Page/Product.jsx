@@ -2,19 +2,21 @@ import { CiEdit,CiSearch } from "react-icons/ci";
 import { FaRegTrashCan } from "react-icons/fa6";
 import useSidebarStore from "../store/zustand";
 import { useState, useEffect } from "react";
-import Nav from "../components/Nav";
 import axios from "axios";
 
 const Product = () => {
   const { 
-    setEditMode, setSelectednameUz,setSelectednameEn,setSelectIDUrl,setSelectednameRu,setSelecteddescrUz,setSelecteddescrRU,setSelecteddescrEN,setSelectedPrice, setDelate, setDelateName,setSelectedSize,setSelectedCategory,setselectchair,setselecttable,seta,serResponse,res,setDelatee, } = useSidebarStore();
+    setEditMode,editMode,setSelectednameUz,setSelectednameEn,setSelectIDUrl,setSelectednameRu,setSelecteddescrUz,setSelecteddescrRU,setSelecteddescrEN,setSelectedPrice, setDelate, setDelateName,setSelectedSize,setSelectedCategory,setselectchair,setselecttable,seta,serResponse,res,setDelatee,toggleIsOpen, } = useSidebarStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProductDetails] = useState(null);
+  const [loding, setLoading] = useState(false)
+  const [a, setA] = useState([])
   const token = localStorage.getItem("token");
-
+  
   const fetchProducts = async () => {
+    setLoading(true)
     try {
-      const response = await axios.get('http://178.128.204.58:8888/products', {
+      const response = await axios.get('https://mebelbot.limsa.uz/products', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -22,16 +24,43 @@ const Product = () => {
       serResponse(response.data.data); 
     } catch (error) {
       console.error('Xatolik yuz berdi:', error);
+    }finally {
+      setLoading(false); 
     }
   };
 
+  const fetchProductss = async () => {
+    try {
+      const response = await axios.get('https://mebelbot.limsa.uz/categories', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setA(response.data.data); 
+    } catch (error) {
+      console.error('Xatolik yuz berdi:', error);
+      setA([]); 
+    }
+  };
   useEffect(() => {
-    fetchProducts();
+    fetchProductss();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
+  // useEffect(() => {
+  //   fetchProducts();
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+  useEffect(() => {
+    if (!editMode) {
+      fetchProducts();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editMode]);
+
+
 
   const edit = (product) => {
-    console.log(product);
     setSelectIDUrl(product?.id);
     setSelectednameUz(product?.nameUz);
     setSelectednameRu(product?.nameRu);
@@ -43,7 +72,7 @@ const Product = () => {
     setSelectedPrice(product?.sizes?.[0]?.price);
     setselectchair(product?.sizes?.[0]?.chair);
     setselecttable(product?.sizes?.[0]?.table);
-    setSelectedCategory(product?.category?.nameUz);
+    setSelectedCategory(product?.category?.id);
     setEditMode(true);
     seta(product);
   };
@@ -53,7 +82,6 @@ const Product = () => {
     setDelateName(name);
     setDelate(true);
   };
-
 
   const shortDescription = (descr) => {
     const words = descr.split(/\s+/); 
@@ -68,6 +96,7 @@ const Product = () => {
     const words = name.split(/\s+/); 
     return words.length > 3 ? `${words.slice(0, 3).join(" ")}...` : name;
   };
+
 
   const openModal = (product) => {
     setSelectedProductDetails(product);
@@ -96,6 +125,9 @@ const Product = () => {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [modalOpen]);
+  const createProduct = () => {
+    toggleIsOpen(true)
+  }
   return (
     <>
       <div className="relative px-4">
@@ -108,7 +140,11 @@ const Product = () => {
             />
             <CiSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={24} />
           </div>
-          <Nav />
+          <button
+      onClick={createProduct}
+      className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">
+      Add New Product
+    </button>
         </div>
 
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-lg overflow-hidden">
@@ -127,32 +163,42 @@ const Product = () => {
             </tr>
           </thead>
           <tbody>
-            {res?.map((product, index) => (
-              <tr key={product.id} onClick={() => openModal(product)}
-                className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg cursor-pointer`}>
-                <th className="px-6 py-2 font-medium w-[180px] text-black leading-[24px]">{shortName(product?.nameUz)}</th>
-                <td className="px-2 py-2 text-black w-[200px]">{shortDescription(product?.descriptionUz)}</td>
-                <td className="px-2 py-2 text-black w-[150px]">{product.category?.nameUz}</td>
-                <td className="px-2 py-2 text-black w-[100px] "><img src={`https://realauto.limsa.uz/api/uploads/images/${product.imageUrl}`} alt="" /></td>
-                <td className="px-2 py-2 text-black w-[100px] "><img src={`https://realauto.limsa.uz/api/uploads/images/${product.imageUrls}`} alt="" /></td>
-                <td className="px-2 py-2 text-black w-[100px] ">{product.sizes?.[0]?.size}</td>
-                <td className="px-2 py-2 text-black w-[100px] ">{product.sizes?.[0]?.table}</td>
-                <td className="px-2 py-2 text-black w-[100px] ">{product.sizes?.[0]?.chair}</td>
-                <td className="px-2 py-2 text-black w-[130px] ">$ {product.sizes?.[0]?.price}</td>
-                <td className="w-[130px]">
-                  <div className="flex items-center">
-                    <button onClick={(e) => { e.stopPropagation(); edit(product)}} 
-                      className="w-[50px] h-10 flex justify-center items-center dark:text-green-600 cursor-pointer">
-                      <CiEdit className="w-[20px] h-full" />
-                    </button>
-                    <button onClick={(e) => {  e.stopPropagation();  handDElate(product?.id, product?.nameUz) }}
-                      className="w-[50px] h-10 flex justify-center items-center cursor-pointer dark:text-red-600">
-                      <FaRegTrashCan className="w-[15px] h-full" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {loding ? (
+      <tr>
+        <td colSpan="10" className="text-center py-4 text-lg font-semibold">Loading...</td>
+      </tr>
+    ) : (
+      res?.map((product, index) => (
+        
+        <tr key={product.id} onClick={() => openModal(product)}
+          className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg cursor-pointer`}>
+          <th className="px-6 py-2 font-medium w-[180px] text-black leading-[24px]">{shortName(product?.nameUz)}</th>
+          <td className="px-2 py-2 text-black w-[200px]">{shortDescription(product?.descriptionUz)}</td>
+          <td className="px-2 py-2 text-black w-[150px]">
+            {a.find(category => category.id === product?.category?.id)?.nameUz}
+          </td>
+          <td className="px-2 py-2 text-black w-[100px] "><img src={`${product?.imageUrl}`} alt="" /></td>
+          <td className="px-2 py-2 text-black w-[100px] "><img src={`https://realauto.limsa.uz/api/uploads/images/${product.imageUrls}`} alt="" /></td>
+          <td className="px-2 py-2 text-black w-[100px] ">{product.sizes?.[0]?.size}</td>
+          <td className="px-2 py-2 text-black w-[100px] ">{product.sizes?.[0]?.table}</td>
+          <td className="px-2 py-2 text-black w-[100px] ">{product.sizes?.[0]?.chair}</td>
+          <td className="px-2 py-2 text-black w-[130px] ">$ {product.sizes?.[0]?.price}</td>
+          <td className="w-[130px]">
+            <div className="flex items-center gap-2">
+              <button onClick={(e) => { e.stopPropagation(); edit(product)}} 
+                className="w-[50px] h-10 flex justify-center items-center dark:text-green-600 cursor-pointer">
+                <CiEdit className="w-[20px] h-full" />
+              </button>
+              <button onClick={(e) => {  e.stopPropagation();  handDElate(product?.id, product?.nameUz) }}
+                className="w-[50px] h-10 flex justify-center items-center cursor-pointer dark:text-red-600">
+                <FaRegTrashCan className="w-[15px] h-full" />
+              </button>
+            </div>
+          </td>
+        </tr>
+      ))
+      
+    )}
           </tbody>
         </table>
       </div>

@@ -15,7 +15,8 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
   
-    axios.post("http://178.128.204.58:8888/auth/login", {
+    // axios.post("http://178.128.204.58:8888/auth/login", {
+    axios.post("https://mebelbot.limsa.uz/auth/login", {
       username: number,
       password: password,
     })
