@@ -271,8 +271,7 @@ const Modal = () => {
                   placeholder="Price"
                   value={editPrice || ""}
                   onChange={(e) => setSelectedPrice(e.target.value)}
-                  className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
-                />
+                  className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"/>
               </div>
 
                  <div className={`space-y-2  flex flex-col items-center justify-center `}>
@@ -281,7 +280,9 @@ const Modal = () => {
     type="file"
     onChange={(e) => choseSingleImg(e)}
     className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
-    required={!editMode}/>
+    required={!editMode}
+    disabled={editMode}
+    />
   {editMode && getImg && (
     <div>
       <img src={getImg} alt="Current" className="w-20 h-20" />
@@ -297,7 +298,7 @@ const Modal = () => {
         className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
         multiple
         />
-      <div className="flex flex-wrap gap-2 w-100px">
+      <div className="flex flex-wrap gap-2 w-[100px]">
         {editMode && multipleImagess.map((img, index) => (
        <img key={index} src={img} alt={`Uploaded ${index}`} className="w-10 h-10" />
          ))}
