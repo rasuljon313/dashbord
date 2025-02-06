@@ -78,7 +78,7 @@ const Product = () => {
     setselecttable(product?.sizes?.[0]?.table);
     setSelectedCategory(product?.category?.id);
     setGetimg(product?.imageUrl); 
-    setMultipleImages(product?.imageUrls)
+    setMultipleImages(product?.imageUrls); 
     setEditMode(true);
     seta(product);
 };

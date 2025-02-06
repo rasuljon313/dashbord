@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Modal = () => {
   const { toggleIsOpen, setEditMode,
-     editMode, selectednameUz,multipleImages,setMultipleImages, setSelectednameRu, selectednameRu, desUz, desRu, desEn, editPrice, editSize, selectednameEn, editCategory, setSelectednameUz, editIdUrl, setSelectednameEn, setSelecteddescrUz, setSelecteddescrRU, setSelecteddescrEN, setSelectedPrice, setSelectedSize, setSelectedCategory, setselectchair, setselecttable, table, chair, setGetimg, getImg, serResponse, res,setSelect,select
+     editMode, selectednameUz, setSelectednameRu, selectednameRu, desUz, desRu, desEn, editPrice, editSize, selectednameEn, editCategory, setSelectednameUz, editIdUrl, setSelectednameEn, setSelecteddescrUz, setSelecteddescrRU, setSelecteddescrEN, setSelectedPrice, setSelectedSize, setSelectedCategory, setselectchair, setselecttable, table, chair, setGetimg, getImg, serResponse, res,setSelect,select
   } = create();
 
   const [loading, setLoading] = useState(false);
@@ -148,7 +148,7 @@ const Modal = () => {
     setSelectedSize("");
     setSelectedCategory("");
     setGetimg(""); // Reset image URL
-    setMultipleImages([])
+    setMultipleImagess([])
   };
 
   const closeModal = () => {
@@ -274,14 +274,14 @@ const Modal = () => {
                   className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
                 />
               </div>
-              <div className="space-y-2 flex flex-col items-center justify-center ">
+
+                 <div className={`space-y-2  flex flex-col items-center justify-center `}>
   <label className="block text-sm font-medium text-gray-700">Image</label>
   <input
     type="file"
     onChange={(e) => choseSingleImg(e)}
     className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
-    required={!editMode} 
-  />
+    required={!editMode}/>
   {editMode && getImg && (
     <div>
       <img src={getImg} alt="Current" className="w-20 h-20" />
@@ -298,13 +298,14 @@ const Modal = () => {
         multiple
         />
       <div className="flex flex-wrap gap-2 w-100px">
-      {editMode && multipleImages.map((img, index) => (
-    <img key={index} src={img} alt={`Uploaded ${index}`} className="w-10 h-10" />
-  ))}
+        {editMode && multipleImagess.map((img, index) => (
+       <img key={index} src={img} alt={`Uploaded ${index}`} className="w-10 h-10" />
+         ))}
     <div className="flex flex-wrap gap-2 w-full">
   </div>
               </div>
-      </div>
+             </div>
+
             </div>
           </div>
           <div className="grid grid-cols-3 gap-6">

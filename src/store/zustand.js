@@ -89,9 +89,9 @@ const useSidebarStore = create((set) => ({
 
   select: [], 
   setSelect: (newSelect) => set({ select: newSelect }),
-
-  multipleImages:[], 
-  setMultipleImages: (newSelect) => set({ multipleImages: newSelect }),
+  
+  multipleImages: [],
+  setMultipleImages: (product) => set(() => ({ multipleImages: product })),
   
 
   // openCategoryM:false,
