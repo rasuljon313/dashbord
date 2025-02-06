@@ -15,27 +15,27 @@ function DelateModal() {
   const close = () => {
     setDelate(false);
   };
-  const type = delatee ? "products" : "";
+  const type = delatee ? "products" : "categories";
   const deleteId = delatee || delateCateg;
 
   const b = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      // const response = await axios.delete(`http://178.128.204.58:8888/${type}/${deleteId}`,{
-      const response = await axios.delete(`https://mebelbot.limsa.uz/${type}/${deleteId}`,{
+      const response = await axios.delete(`https://mebelbot.limsa.uz/${type}/${deleteId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      if(response){
-      close()
-       window.location.reload()
+      if (response) {
+        close();
+        window.location.reload();
       }
     } catch (error) {
-      console.error("Error deleting product:", error);
-    }finally {
-      setLoading(false) 
-    }}
+      console.error("Error deleting item:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">

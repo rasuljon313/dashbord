@@ -3,14 +3,23 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import useSidebarStore from "../store/zustand";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import { AiOutlineFieldNumber } from "react-icons/ai";
 
 const Product = () => {
-  const { 
-    setEditMode,editMode,setSelectednameUz,setSelectednameEn,setSelectIDUrl,setSelectednameRu,setSelecteddescrUz,setSelecteddescrRU,setSelecteddescrEN,setSelectedPrice, setDelate, setDelateName,setSelectedSize,setSelectedCategory,setselectchair,setselecttable,seta,serResponse,res,setDelatee,toggleIsOpen, } = useSidebarStore();
+  const {setEditMode,editMode,multipleImages,setMultipleImages,setSelectednameUz,setGetimg,setSelectednameEn,setSelectIDUrl,setSelectednameRu,setSelecteddescrUz,setSelecteddescrRU,setSelecteddescrEN,setSelectedPrice, setDelate, setDelateName,setSelectedSize,setSelectedCategory,setselectchair,setselecttable,seta,serResponse,res,setDelatee,toggleIsOpen} = useSidebarStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProductDetails] = useState(null);
   const [loding, setLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   const [a, setA] = useState([])
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageClick = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setIsOpen(true);
+  };
+
   const token = localStorage.getItem("token");
   
   const fetchProducts = async () => {
@@ -47,10 +56,6 @@ const Product = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
-  // useEffect(() => {
-  //   fetchProducts();
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
   useEffect(() => {
     if (!editMode) {
       fetchProducts();
@@ -58,9 +63,8 @@ const Product = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editMode]);
 
-
-
   const edit = (product) => {
+    console.log(product);
     setSelectIDUrl(product?.id);
     setSelectednameUz(product?.nameUz);
     setSelectednameRu(product?.nameRu);
@@ -73,9 +77,13 @@ const Product = () => {
     setselectchair(product?.sizes?.[0]?.chair);
     setselecttable(product?.sizes?.[0]?.table);
     setSelectedCategory(product?.category?.id);
+    setGetimg(product?.imageUrl); 
+    setMultipleImages(product?.imageUrls)
     setEditMode(true);
     seta(product);
-  };
+};
+console.log(multipleImages);
+
 
   const handDElate = (id, name) => {
     setDelatee(id);
@@ -86,17 +94,10 @@ const Product = () => {
   const shortDescription = (descr) => {
     const words = descr.split(/\s+/); 
     if (words.length > 10) {
-      return `${words.slice(0, 10).join(" ")}...`; 
+      return `${words.slice(0, 18).join(" ")}...`; 
     }
     return descr;
   };
-
-  const shortName = (name) => {
-    if (!name) return "Nomsiz"; 
-    const words = name.split(/\s+/); 
-    return words.length > 3 ? `${words.slice(0, 3).join(" ")}...` : name;
-  };
-
 
   const openModal = (product) => {
     setSelectedProductDetails(product);
@@ -112,10 +113,11 @@ const Product = () => {
     const handleEsc = (event) => {
       if (event.key === "Escape") {
         closeModal();
+        setIsOpen(false)
       }
     };
     
-    if (modalOpen) {
+    if (modalOpen || isOpen) {
       window.addEventListener("keydown", handleEsc);
     } else {
       window.removeEventListener("keydown", handleEsc);
@@ -124,10 +126,13 @@ const Product = () => {
     return () => {
       window.removeEventListener("keydown", handleEsc);
     };
-  }, [modalOpen]);
+  }, [modalOpen,isOpen ]);
   const createProduct = () => {
     toggleIsOpen(true)
   }
+  // console.log(res);
+  
+
   return (
     <>
       <div className="relative px-4">
@@ -150,16 +155,17 @@ const Product = () => {
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-lg overflow-hidden">
           <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-white-700 dark:text-black">
             <tr>
-              <th scope="col" className="px-6 py-3 w-[180px]">Product name</th>
-              <th scope="col" className="px-2 py-3 w-[200px]">Description</th>
-              <th scope="col" className="px-2 py-3">Category</th>
-              <th scope="col" className="px-2 py-3 w-[150px]">Base Img</th>
-              <th scope="col" className="px-2 py-3 w-[150px]">Option Img</th>
-              <th scope="col" className="px-2 py-3 w-[100px]">Size</th>
-              <th scope="col" className="px-2 py-3 w-[100px]">Table</th>
-              <th scope="col" className="px-2 py-3 w-[100px]">Chair</th>
-              <th scope="col" className="px-2 py-3">Price</th>
-              <th scope="col" className="px-2 py-3">Action</th>
+              <th scope="col" className="px-3 py-1 w-[100px] text-[10px]"><AiOutlineFieldNumber className="text-[16px] font-bold" /></th>
+              <th scope="col" className="px-2 py-3 w-[180px] text-[10px]">Name</th>
+              <th scope="col" className="px-2 py-3 w-[200px] text-[10px]">Description</th>
+              <th scope="col" className="px-2 py-3 text-[10px]">Category</th>
+              <th scope="col" className="px-2 py-3 w-[150px] text-[10px]">Base Img</th>
+              <th scope="col" className="px-2 py-3 w-[150px] text-[10px]">Option Img</th>
+              <th scope="col" className="px-2 py-3 w-[120px] text-[10px]">Size</th>
+              <th scope="col" className="px-2 py-3 w-[100px] text-[10px]">Table</th>
+              <th scope="col" className="px-2 py-3 w-[100px] text-[10px]">Chair</th>
+              <th scope="col" className="px-2 py-3 text-[10px]">Price</th>
+              <th scope="col" className="px-2 py-3 text-[10px]">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -168,24 +174,30 @@ const Product = () => {
         <td colSpan="10" className="text-center py-4 text-lg font-semibold">Loading...</td>
       </tr>
     ) : (
-      res?.map((product, index) => (
+      res?.map((product,index) => (
         
         <tr key={product.id} onClick={() => openModal(product)}
           className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg cursor-pointer`}>
-          <th className="px-6 py-2 font-medium w-[180px] text-black leading-[24px]">{shortName(product?.nameUz)}</th>
-          <td className="px-2 py-2 text-black w-[200px]">{shortDescription(product?.descriptionUz)}</td>
-          <td className="px-2 py-2 text-black w-[150px]">
+          <td className="px-4 py-1 w-[100px] text-black leading-[10px] text-[10px] ">{index+1}</td>
+          <td className="px-2 py-1 w-[180px] text-black leading-[10px] text-[10px] ">{product?.nameUz}</td>
+          <td className="px-2 py-1 text-black w-[200px] text-[10px] leading-[12px] ">{shortDescription(product?.descriptionUz)}</td>
+          <td className="px-2 py-1 text-black w-[200px] text-[10px] leading-[12px]">
             {a.find(category => category.id === product?.category?.id)?.nameUz}
           </td>
-          <td className="px-2 py-2 text-black w-[100px] "><img src={`${product?.imageUrl}`} alt="" /></td>
-          <td className="px-2 py-2 text-black w-[100px] "><img src={`https://realauto.limsa.uz/api/uploads/images/${product.imageUrls}`} alt="" /></td>
-          <td className="px-2 py-2 text-black w-[100px] ">{product.sizes?.[0]?.size}</td>
-          <td className="px-2 py-2 text-black w-[100px] ">{product.sizes?.[0]?.table}</td>
-          <td className="px-2 py-2 text-black w-[100px] ">{product.sizes?.[0]?.chair}</td>
-          <td className="px-2 py-2 text-black w-[130px] ">$ {product.sizes?.[0]?.price}</td>
-          <td className="w-[130px]">
-            <div className="flex items-center gap-2">
-              <button onClick={(e) => { e.stopPropagation(); edit(product)}} 
+          <td className=" py-1 text-black w-[100px] text-[10px]"><img  src={`${product?.imageUrl}`} alt=""
+  className="border border-transparent rounded-lg outline-none w-200 h-[50px] object-contain"/></td>
+   <td className="px-2 py-1 text-black w-[100px] text-[10px]">
+  <div className="flex space-x-2">
+    <img src={product?.imageUrls[0]} alt="" />
+  </div> 
+ </td> 
+             <td className="px-2 py-1 text-black w-[120px] text-[10px] leading-[12px] ">{product.sizes?.[0]?.size}</td>
+           <td className="px-2 py-1 text-black w-[100px] text-[10px] leading-[12px]  ">{product.sizes?.[0]?.table}</td>
+           <td className="px-2 py-1 text-black w-[100px] text-[10px] leading-[12px]  ">{product.sizes?.[0]?.chair}</td>
+           <td className="px-2 py-1 text-black w-[130px] text-[10px] leading-[12px]  ">$ {product.sizes?.[0]?.price}</td>
+           <td className="w-[130px]">
+             <div className="flex items-center gap-2">
+               <button onClick={(e) => { e.stopPropagation(); edit(product)}} 
                 className="w-[50px] h-10 flex justify-center items-center dark:text-green-600 cursor-pointer">
                 <CiEdit className="w-[20px] h-full" />
               </button>
@@ -195,10 +207,9 @@ const Product = () => {
               </button>
             </div>
           </td>
-        </tr>
+        </tr> 
       ))
-      
-    )}
+      )}
           </tbody>
         </table>
       </div>
@@ -206,13 +217,44 @@ const Product = () => {
       {modalOpen && selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={closeModal}>
           <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-96" onClick={(e) => e.stopPropagation()}>
-            <p className="text-xl font-bold mb-4"><strong>Name:</strong>{selectedProduct.nameUz}</p>
-            <p className="text-[18px] mb-[3px]" ><strong>Description:</strong> {selectedProduct?.descriptionUz}</p>
-            <p className="text-[18px] mb-[3px]" ><strong>Category:</strong> {selectedProduct?.category?.nameUz}</p>
-            <p className="text-[18px] mb-[10px]" ><strong>Size:</strong> {selectedProduct?.sizes?.[0]?.size}</p>
-            <p className="text-[18px] mb-[10px]" ><strong>Table:</strong> {selectedProduct?.sizes?.[0]?.table}</p>
-            <p className="text-[18px] mb-[10px]" ><strong>Chair:</strong> {selectedProduct?.sizes?.[0]?.chair}</p>
-            <p className="text-[18px] mb-[10px]" ><strong>Price:</strong> {selectedProduct?.sizes?.[0]?.price}</p>
+            <p className="text-[16px] mb-4"><strong className="mr-1">Name:</strong>{selectedProduct.nameUz}</p>
+            <p className="text-[14px] mb-[3px]" ><strong>Description:</strong> {selectedProduct?.descriptionUz}</p>
+            <p className="text-[14px] mb-[3px]" ><strong>Category:</strong> {selectedProduct?.category?.nameUz}</p>
+            <p className="text-[14px] mb-[10px]" ><strong>Size:</strong> {selectedProduct?.sizes?.[0]?.size}</p>
+            <p className="text-[14px] mb-[10px]" ><strong>Table:</strong> {selectedProduct?.sizes?.[0]?.table}</p>
+            <p className="text-[14px] mb-[10px]" ><strong>Chair:</strong> {selectedProduct?.sizes?.[0]?.chair}</p>
+            <p className="text-[14px] mb-[10px]" ><strong>Price:</strong> {selectedProduct?.sizes?.[0]?.price}</p>
+    <div className="flex gap-3 overflow-x-auto">
+        {selectedProduct?.imageUrls.map((imageUrl) => (
+          <div key={imageUrl} className="flex-shrink-0">
+            <p className="flex items-center gap-5 text-[18px] mb-[10px]">
+              <img
+                className="w-[150px] h-[100px] object-cover transition-transform duration-300 cursor-pointer hover:scale-105"
+                src={imageUrl}
+                alt={`Product`}
+                onClick={() => handleImageClick(imageUrl)}
+              />
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
+          onClick={() => setIsOpen(false)}>
+          <button
+            className="absolute top-5 right-5 cursor-pointer px-3 py-1 rounded-full text-lg shadow-lg"
+            onClick={() => setIsOpen(false)}>
+            <IoIosCloseCircleOutline className="text-red-500 w-[30px] h-[30px]" />
+          </button>
+          <img
+            className="max-w-[70%] max-h-[80%] object-contain rounded-lg shadow-lg"
+            src={selectedImage}
+            alt="Enlarged"/>
+        </div>
+      )}
+
             <button onClick={closeModal} className="transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red">Close</button>
           </div>
         </div>

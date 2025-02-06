@@ -20,22 +20,61 @@ function CategoryM() {
   } = create();
   const token = localStorage.getItem("token");
 const [loading, setLoading] = useState(false);
+  // const postData = async () => {
+  //   try {
+  //     const productData = {
+  //       nameUz: selectedCategnameUz,
+  //       nameRu: selectedCategnameRu,
+  //       nameEn: selectedCategnameEn,
+  //     };
+
+  //     const url = editModeCategory
+  //       ? `https://mebelbot.limsa.uz/categories/${editIdUrlCateg}`
+  //       : "https://mebelbot.limsa.uz/categories";
+
+  //     const method = editModeCategory ? "PUT" : "POST";
+
+  //     const response = await axios({
+  //       method: method,
+  //       url: url,
+  //       data: productData,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+
+  //     if (!editModeCategory) {
+  //       serResponseC([...resc, response.data.data]);
+  //     } else {
+  //       const updatedProducts = resc.map(product => 
+  //         product.id === response.data.data.id ? response.data.data : product
+  //       );
+  //       serResponseC(updatedProducts);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error occurred:", error);
+  //   }
+  // };
+
   const postData = async () => {
     try {
+      const existingData = editModeCategory
+        ? resc.find(product => product.id === editIdUrlCateg)
+        : null;
+  
       const productData = {
-        nameUz: selectedCategnameUz,
-        nameRu: selectedCategnameRu,
-        nameEn: selectedCategnameEn,
+        nameUz: selectedCategnameUz || existingData?.nameUz || "",
+        nameRu: selectedCategnameRu || existingData?.nameRu || "",
+        nameEn: selectedCategnameEn || existingData?.nameEn || "",
       };
-
+  
       const url = editModeCategory
-        // ? `http://178.128.204.58:8888/categories/${editIdUrlCateg}`
-        // : "http://178.128.204.58:8888/categories";
         ? `https://mebelbot.limsa.uz/categories/${editIdUrlCateg}`
         : "https://mebelbot.limsa.uz/categories";
-
+  
       const method = editModeCategory ? "PUT" : "POST";
-
+  
       const response = await axios({
         method: method,
         url: url,
@@ -45,11 +84,13 @@ const [loading, setLoading] = useState(false);
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (!editModeCategory) {
+        // Yangi kategoriya qo'shish
         serResponseC([...resc, response.data.data]);
       } else {
-        const updatedProducts = resc.map(product => 
+        // Mavjud kategoriyani yangilash
+        const updatedProducts = resc.map(product =>
           product.id === response.data.data.id ? response.data.data : product
         );
         serResponseC(updatedProducts);

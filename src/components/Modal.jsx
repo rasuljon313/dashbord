@@ -5,14 +5,12 @@ import axios from "axios";
 
 const Modal = () => {
   const { toggleIsOpen, setEditMode,
-    // seta,
-     editMode, selectednameUz, setSelectednameRu, selectednameRu, desUz, desRu, desEn, editPrice, editSize, selectednameEn, editCategory, setSelectednameUz, editIdUrl, setSelectednameEn, setSelecteddescrUz, setSelecteddescrRU, setSelecteddescrEN, setSelectedPrice, setSelectedSize, setSelectedCategory, setselectchair, setselecttable, table, chair, setGetimg, getImg, serResponse, res,setSelect,select
+     editMode, selectednameUz,multipleImages,setMultipleImages, setSelectednameRu, selectednameRu, desUz, desRu, desEn, editPrice, editSize, selectednameEn, editCategory, setSelectednameUz, editIdUrl, setSelectednameEn, setSelecteddescrUz, setSelecteddescrRU, setSelecteddescrEN, setSelectedPrice, setSelectedSize, setSelectedCategory, setselectchair, setselecttable, table, chair, setGetimg, getImg, serResponse, res,setSelect,select
   } = create();
 
-  const [img, setImg] = useState(""); 
   const [loading, setLoading] = useState(false);
+  const [multipleImagess, setMultipleImagess] = useState([]);
   const token = localStorage.getItem("token"); 
-  
   const postData = async () => {
     try {
       const productData = {
@@ -23,7 +21,7 @@ const Modal = () => {
         descriptionRu: desRu,
         descriptionEn: desEn,
         imageUrl: getImg,
-        imageUrls: ["frgcerge"], 
+        imageUrls: multipleImagess,
         sizes: [{
           size: editSize,
           chair: +chair,
@@ -31,17 +29,14 @@ const Modal = () => {
           price: +editPrice,
         }],
         categoryId: +editCategory,
-      };setSelectedCategory
-  
-      // const url = editMode 
-      //   ? `http://178.128.204.58:8888/products/${editIdUrl}` 
-      //   : 'http://178.128.204.58:8888/products'; 
+      };
+
       const url = editMode 
         ? `https://mebelbot.limsa.uz/products/${editIdUrl}` 
-        : 'https://mebelbot.limsa.uz/products'; 
-  
-      const method = editMode ? 'PUT' : 'POST'; 
-  
+        : 'https://mebelbot.limsa.uz/products';
+
+      const method = editMode ? 'PUT' : 'POST';
+
       const response = await axios({
         method: method,
         url: url,
@@ -51,8 +46,7 @@ const Modal = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
-      // seta(response.data.data);
+
       if (!editMode) {
         serResponse([...res, response.data.data]);
       } else {
@@ -64,43 +58,57 @@ const Modal = () => {
     } catch (error) {
       console.error('Error occurred:', error);
     }
-  };  
+  };
 
-  console.log(res);
+  const choseSingleImg = async (e) => {
+    const selectedFile = e.target.files[0]; 
+    if (!selectedFile) return;
+    await uploadFile(selectedFile, setGetimg);
+  };
+
+  const choseMultipleImg = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
   
-// console.log(img);
+    const uploadedImages = await Promise.all(
+      files.map(async (file) => {
+        return await uploadFile(file);
+      })
+    );
+  
+    setMultipleImagess((prev) => [...prev, ...uploadedImages.filter(Boolean)]);
+  };
 
-  // const file = async () => {
-  //   if (!img) {
-  //     console.error("Fayl tanlanmagan!");
-  //     return;
-  //   }
-  //   const formData = new FormData();
-  //   formData.append("file", img);
+  const uploadFile = async (file, setImageState) => {
+    if (!file) {
+      console.error("Fayl tanlanmadi!");
+      return;
+    }
 
-  //   try {
-  //     const response = await axios.post(
-  //       // "http://178.128.204.58:8888/file/upload",
-  //       "https://mebelbot.limsa.uz/file/upload",
-  //       formData,
-  //       {headers: {
-  //           // "Content-Type": "multipart/form-data",
-  //           Authorization: `Bearer ${token}`,
-  //         },});
-          
-  //         // console.log(response);
-  //     setGetimg(response?.data?.data?.path);
-  //   }
-  //      catch (error) {
-  //     console.error("Xatolik yuz berdi:", error);}};
-      // console.log(getImg);
-      
-// console.log(img);
-// console.log(getImg);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post(
+        "https://mebelbot.limsa.uz/file/upload",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const uploadedUrl = response?.data?.data?.path;
+      if (setImageState) setImageState(uploadedUrl);
+      return uploadedUrl;
+    } catch (error) {
+      console.error("Faylni yuklashda xatolik yuz berdi:", error);
+      return null;
+    }
+  };
 
   const fetchData = async () => {
     try {
-      // const response = await axios.get('http://178.128.204.58:8888/categories', {
       const response = await axios.get('https://mebelbot.limsa.uz/categories', {
         headers: {
           Authorization: `Bearer ${token}`
@@ -116,16 +124,18 @@ const Modal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!img) {
+    setLoading(true);
+  
+    if (!editMode && !getImg) {
       console.error("Fayl tanlanmagan!");
+      setLoading(false);
       return;
     }
-    setLoading(true);
-    // await file(); 
+  
     await postData();
     setLoading(false);
-    toggleIsOpen(false)
-    setEditMode(false)
+    toggleIsOpen(false);
+    setEditMode(false);
     setSelectednameUz("");
     setSelectednameRu("");
     setSelectednameEn("");
@@ -133,12 +143,12 @@ const Modal = () => {
     setSelecteddescrRU("");
     setSelecteddescrEN("");
     setSelectedPrice("");
-    setselectchair("")
-    setselecttable("")
-    setImg(null);
+    setselectchair("");
+    setselecttable("");
     setSelectedSize("");
     setSelectedCategory("");
-    // setSelect("")
+    setGetimg(""); // Reset image URL
+    setMultipleImages([])
   };
 
   const closeModal = () => {
@@ -151,7 +161,7 @@ const Modal = () => {
     setSelectedPrice("");
     setselectchair("")
     setselecttable("")
-    setImg(null);
+    // setImg(null);
     setSelectedSize("");
     setSelectedCategory("");
     toggleIsOpen(false);
@@ -162,40 +172,9 @@ const Modal = () => {
   const handleSelectChange = (event) => {
     setSelectedCategory(event.target.value);
   };
-  const choseImg = async (e) => {
-    const selectedFile = e.target.files[0];
-    if (!selectedFile) return;
-  
-    setImg(selectedFile); // State-ga saqlaymiz (agar kerak bo'lsa)
-    await file(selectedFile); // Faylni bevosita funksiyaga yuboramiz
-  };
-  
-  const file = async (selectedFile) => {
-    if (!selectedFile) {
-      console.error("Fayl tanlanmagan!");
-      return;
-    }
-  
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-  
-    try {
-      const response = await axios.post(
-        "https://mebelbot.limsa.uz/file/upload",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-  
-      setGetimg(response?.data?.data?.path);
-      console.log("Rasm yuklandi:", response?.data?.data?.path);
-    } catch (error) {
-      console.error("Xatolik yuz berdi:", error);
-    }
-  };
+
+  console.log(multipleImagess);
+
   
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -211,7 +190,7 @@ const Modal = () => {
         <form onSubmit={handleSubmit} className="space-y-6 py-6 flex flex-col">
           <div className="space-y-4">
             <div className="grid grid-cols-3 gap-6">
-              <div className="space-y-2">
+              <div className="space-y-2 flex flex-col items-center justify-center">
                 <label className="block text-sm font-medium text-gray-700">Name (UZ)</label>
                 <input
                   name="nameUz"
@@ -223,7 +202,7 @@ const Modal = () => {
                   className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 flex flex-col items-center justify-center">
                 <label className="block text-sm font-medium text-gray-700">Name (RU)</label>
                 <input
                   name="nameRu"
@@ -235,7 +214,7 @@ const Modal = () => {
                   className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 flex flex-col items-center justify-center">
                 <label className="block text-sm font-medium text-gray-700">Name (EN)</label>
                 <input
                   name="nameEn"
@@ -250,7 +229,7 @@ const Modal = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-6 mt-4">
-              <div className="space-y-2">
+              <div className="space-y-2 flex flex-col items-center justify-center">
                 <label className="block text-sm font-medium text-gray-700">Description (UZ)</label>
                 <textarea
                   name="descriptionUz"
@@ -260,7 +239,7 @@ const Modal = () => {
                   className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] h-24"
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 flex flex-col items-center justify-center">
                 <label className="block text-sm font-medium text-gray-700">Description (RU)</label>
                 <textarea
                   name="descriptionRu"
@@ -271,7 +250,7 @@ const Modal = () => {
                    border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px] h-24"
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 flex flex-col items-center justify-center">
                 <label className="block text-sm font-medium text-gray-700">Description (EN)</label>
                 <textarea
                   name="descriptionEn"
@@ -283,8 +262,8 @@ const Modal = () => {
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-3 gap-6">
-              <div className="space-y-2">
+            <div className="mt-4 grid grid-cols-3 gap-6 items-start">
+              <div className="space-y-2 flex flex-col items-center justify-center">
                 <label className="block text-sm font-medium text-gray-700">Price</label>
                 <input
                   name="price"
@@ -295,35 +274,58 @@ const Modal = () => {
                   className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Image</label>
-                <input
-                  type="file"
-                  onChange={(e) => choseImg(e)}
-                  className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
-                />
+              <div className="space-y-2 flex flex-col items-center justify-center ">
+  <label className="block text-sm font-medium text-gray-700">Image</label>
+  <input
+    type="file"
+    onChange={(e) => choseSingleImg(e)}
+    className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
+    required={!editMode} 
+  />
+  {editMode && getImg && (
+    <div>
+      <img src={getImg} alt="Current" className="w-20 h-20" />
+      <p>Current Image</p>
+    </div>
+  )}
               </div>
+              <div className="space-y-2 flex flex-col items-center justify-center ">
+              <label className="block text-sm font-medium text-gray-700">Multiple Images</label>
+      <input
+        type="file"
+        onChange={choseMultipleImg}
+        className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
+        multiple
+        />
+      <div className="flex flex-wrap gap-2 w-100px">
+      {editMode && multipleImages.map((img, index) => (
+    <img key={index} src={img} alt={`Uploaded ${index}`} className="w-10 h-10" />
+  ))}
+    <div className="flex flex-wrap gap-2 w-full">
+  </div>
+              </div>
+      </div>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-6 mt-4">
-            <div className="space-y-2">
+          <div className="grid grid-cols-3 gap-6">
+            <div className="space-y-2 flex flex-col items-center justify-center">
               <label className="block text-sm font-medium text-gray-700">Size</label>
               <input name="size" type="text" placeholder="Size (e.g., M, L)" value={editSize || ""} 
               onChange={(e) => setSelectedSize(e.target.value)} required className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"/>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col items-center justify-center">
               <label className="block text-sm font-medium text-gray-700">Chair</label>
-              <input name="chair" type="text" placeholder="Chair" value={chair || ""} onChange={(e) => setselectchair(e.target.value)} required
+              <input name="chair" type="text" required placeholder="Chair" value={chair || ""} onChange={(e) => setselectchair(e.target.value)} required
               className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"/>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col items-center justify-center">
               <label className="block text-sm font-medium text-gray-700">Table</label>
               <input name="table" type="text" placeholder="Tables" value={table || ""} onChange={(e) => setselecttable(e.target.value)} required
               className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"/>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col items-center justify-center">
               <label className="block text-sm font-medium text-gray-700">Category</label>
-              <select value={editCategory || ""} onChange={handleSelectChange} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]">
+              <select value={editCategory || ""} required onChange={handleSelectChange} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]">
                 <option value="">Choose category</option>
                 {select.length > 0 ? (
                   select.map((category) => (

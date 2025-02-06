@@ -34,7 +34,7 @@ useEffect(() => {
     <div className="flex h-screen">
       <div
         className={`fixed top-0 left-0 h-full bg-gray-200 text-black transition-all duration-300 ease-in-out z-50 ${
-          collapsed ? "w-16" : "w-64"}`}>
+          collapsed ? "w-16" : "w-54"}`}>
         <div className="flex justify-between items-center p-4 bg-gray-200">
           <Link
             to="/"
@@ -96,7 +96,7 @@ useEffect(() => {
       </div>
 
 <div
-  className={`flex-1 transition-all duration-300 ease-in-out  ${collapsed ? "ml-16" : "ml-64"}`}>
+  className={`flex-1 transition-all duration-300 ease-in-out  ${collapsed ? "ml-16" : "ml-54"}`}>
   <div
     className="flex justify-between bg-gray-200 items-center mb-4 p-4 shadow sticky top-0 z-10"
   >

@@ -84,12 +84,14 @@ const useSidebarStore = create((set) => ({
   b: [],
   setb: (product) => set(() => ({ b: product })),
 
-
   c: null,
   serResponseC: (product) => set(() => ({ resc: product })),
 
   select: [], 
   setSelect: (newSelect) => set({ select: newSelect }),
+
+  multipleImages:[], 
+  setMultipleImages: (newSelect) => set({ multipleImages: newSelect }),
   
 
   // openCategoryM:false,
