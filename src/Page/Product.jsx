@@ -51,7 +51,6 @@ const Product = () => {
   };
 
   const token = localStorage.getItem("token");
-  console.log(token);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -61,7 +60,6 @@ const Product = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      
       serResponse(response.data.data);
     } catch (error) {
       console.error("Xatolik yuz berdi:", error);
@@ -83,7 +81,6 @@ const Product = () => {
       setA([]);
     }
   };
-  // console.log(a);
   
 
   const fetchProductsByCategory = async (categoryId) => {
@@ -103,8 +100,6 @@ const Product = () => {
       setProducts([]);
     }
   };
-  // console.log(editCategory);  
-  // console.log(a);  
 
   useEffect(() => {
     if (selectedCategoryId) {

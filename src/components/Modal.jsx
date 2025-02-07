@@ -9,11 +9,7 @@ const Modal = () => {
   } = create();
 
   const [loading, setLoading] = useState(false);
-  // const [multipleImages, setMultipleImages] = useState([]);
-  const token = localStorage.getItem("token"); 
-  // console.log(editMode ? editCategory : false);
-  // console.log(editCategory);
-  
+  const token = localStorage.getItem("token");   
   
   const postData = async () => {
     

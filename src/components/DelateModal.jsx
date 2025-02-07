@@ -7,7 +7,6 @@ function DelateModal() {
   const { delateName, setDelate,delatee,delateCateg,delateNameCateg, } = create();
   const token = localStorage.getItem("token")
   const [loading, setLoading] = useState(false);
-  console.log(delateNameCateg);
   
   const shortName = (name) => {
     if (!name) return `${delateNameCateg}`; 
