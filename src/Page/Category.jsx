@@ -3,6 +3,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import create from "../store/zustand";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { IoEyeOutline } from "react-icons/io5";
 const Category = () => {
   const { setEditModeCategory, setDelate,setDelateCateg, setDelateNameCateg,toggleIsOpenCategory,setSelectedCategnameUz,setSelectedCategnameRu,setSelectedCategnameEn,setSelectIDUrlCateg,serResponseC,resc,editModeCategory } = create();
   const [modalOpen, setModalOpen] = useState(false);
@@ -111,13 +112,20 @@ const Category = () => {
         <td colSpan="10" className="text-center py-4 text-lg font-semibold">Loading...</td>
       </tr>
     ) : resc?.map((product,index) => (            
-  <tr key={product.id} className={`${index % 2 === 0 ? 'bg-gray-200' : 'bg-white'} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg cursor-pointer`}
-    onClick={() => openModal(product)}>
+  <tr key={product.id} className={`${index % 2 === 0 ? 'bg-gray-200' : 'bg-white'} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg`}>
     <td scope="row" className=" text-center text-black">{product?.nameUz}</td>
     <td className=" text-center text-black">{product.nameRu}</td>
     <td className=" text-center text-black">{product.nameEn}</td>
-    <td className=" text-center">
+    <td className=" text-center w-[300px]">
       <div className="flex items-center justify-center gap-[30px]">
+         <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  openModal(product)
+                                }}
+                                className="w-[50px] h-10 flex justify-center items-center cursor-pointer text-black">
+                                <IoEyeOutline className="w-[20px] h-full" />
+                              </button>
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -143,9 +151,9 @@ const Category = () => {
       {modalOpen && selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={closeModal}>
           <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-96" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-xl font-bold mb-4"><strong>NameUz: </strong>{selectedProduct.nameUz}</h2>
-            <p><strong>NameRu: </strong> {selectedProduct.nameRu}</p>
-            <p><strong>NameEN:</strong> {selectedProduct.nameEn}</p>
+            <p className="text-[16px] mb-4"><strong className="mr-1">NameUz: </strong>{selectedProduct.nameUz}</p>
+            <p className="text-[14px] mb-[3px]"><strong>NameRu: </strong> {selectedProduct.nameRu}</p>
+            <p className="text-[14px] mb-[3px]"><strong>NameEN:</strong> {selectedProduct.nameEn}</p>
             <button onClick={closeModal} className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">Close</button>
           </div>
         </div>

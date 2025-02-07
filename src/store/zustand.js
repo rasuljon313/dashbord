@@ -55,13 +55,13 @@ const useSidebarStore = create((set) => ({
 
   editPrice: null,
   setSelectedPrice: (product) => set(() => ({ editPrice: product })),
-
+  
   editSize: null,
   setSelectedSize: (product) => set(() => ({ editSize: product })),
-
+  
   editCategory: null,
   setSelectedCategory: (product) => set(() => ({ editCategory: product })),
-
+  
   chair: null,
   setselectchair: (product) => set(() => ({ chair: product })),
 

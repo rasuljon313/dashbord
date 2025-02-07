@@ -1,5 +1,5 @@
 import { CiEdit, CiSearch } from "react-icons/ci";
-import { FaRegTrashCan } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaRegTrashCan } from "react-icons/fa6";
 import useSidebarStore from "../store/zustand";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -43,6 +43,7 @@ const Product = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -50,6 +51,7 @@ const Product = () => {
   };
 
   const token = localStorage.getItem("token");
+  console.log(token);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -59,6 +61,7 @@ const Product = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      
       serResponse(response.data.data);
     } catch (error) {
       console.error("Xatolik yuz berdi:", error);
@@ -80,6 +83,8 @@ const Product = () => {
       setA([]);
     }
   };
+  // console.log(a);
+  
 
   const fetchProductsByCategory = async (categoryId) => {
     if (!categoryId) return;
@@ -98,18 +103,23 @@ const Product = () => {
       setProducts([]);
     }
   };
+  // console.log(editCategory);  
+  // console.log(a);  
 
   useEffect(() => {
     if (selectedCategoryId) {
       fetchProductsByCategory(selectedCategoryId);
+  
     } else {
-      fetchProducts(); // Fetch default products when no category is selected
+      fetchProducts();
+       // Fetch default products when no category is selected
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategoryId]);
 
   useEffect(() => {
     fetchProductss();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -118,10 +128,9 @@ const Product = () => {
       fetchProducts();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editMode]);
+  }, []);
 
   const edit = (product) => {
-    console.log(product);
     setSelectIDUrl(product?.id);
     setSelectednameUz(product?.nameUz);
     setSelectednameRu(product?.nameRu);
@@ -182,7 +191,7 @@ const Product = () => {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [modalOpen, isOpen]);
-
+  
   const createProduct = () => {
     toggleIsOpen(true);
   };
@@ -190,7 +199,6 @@ const Product = () => {
   const handleCategoryChange = (event) => {
     const selectedId = event.target.value;
     setSelectedCategoryId(selectedId);
-    console.log("Tanlangan kategoriya ID:", selectedId);
   };
 
   const filteredProducts = (selectedCategoryId ? products : res || []).filter((product) => {
@@ -199,6 +207,22 @@ const Product = () => {
       product.descriptionUz.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
+  const handleImageNavigation = (direction) => {
+    if (!selectedProduct || !selectedProduct.imageUrls) return;
+
+    const totalImages = selectedProduct.imageUrls.length;
+    let newIndex = selectedImageIndex;
+
+    if (direction === "prev") {
+      newIndex = selectedImageIndex === 0 ? totalImages - 1 : selectedImageIndex - 1;
+    } else if (direction === "next") {
+      newIndex = selectedImageIndex === totalImages - 1 ? 0 : selectedImageIndex + 1;
+    }
+
+    setSelectedImage(selectedProduct.imageUrls[newIndex]);
+    setSelectedImageIndex(newIndex);
+  };
+
 
   return (
     <>
@@ -247,31 +271,31 @@ const Product = () => {
               <th scope="col" className="px-3 py-1 w-[100px] text-[10px]">
                 <AiOutlineFieldNumber className="text-[16px] font-bold" />
               </th>
-              <th scope="col" className="px-2 py-3 w-[180px] text-[10px]">
+              <th scope="col" className="px-2 py-3 w-[180px] text-center text-[10px]">
                 Name
               </th>
-              <th scope="col" className="px-2 py-3 w-[200px] text-[10px]">
+              <th scope="col" className="px-2 py-3 w-[200px] text-center text-[10px]">
                 Description
               </th>
-              <th scope="col" className="px-2 py-3 text-[10px]">
+              <th scope="col" className="px-2 py-3 text-center text-[10px]">
                 Category
               </th>
-              <th scope="col" className="px-2 py-3 w-[150px] text-[10px]">
+              <th scope="col" className="px-2 py-3 w-[150px] text-center text-[10px]">
                 Base Img
               </th>
-              <th scope="col" className="px-2 py-3 w-[150px] text-[10px]">
+              <th scope="col" className="px-2 py-3 w-[150px] text-center text-[10px]">
                 Option Img
               </th>
-              <th scope="col" className="px-2 py-3 w-[120px] text-[10px]">
+              <th scope="col" className="px-2 py-3 w-[120px] text-center text-[10px]">
                 Size
               </th>
-              <th scope="col" className="px-2 py-3 w-[100px] text-[10px]">
+              <th scope="col" className="px-2 py-3 w-[100px] text-center text-[10px]">
                 Table
               </th>
-              <th scope="col" className="px-2 py-3 w-[100px] text-[10px]">
+              <th scope="col" className="px-2 py-3 w-[100px] text-center text-[10px]">
                 Chair
               </th>
-              <th scope="col" className="px-2 py-3 text-[10px]">
+              <th scope="col" className="px-2 py-3 text-center text-[10px]">
                 Price
               </th>
               <th scope="col" className="px-2 py-3 text-center text-[10px]">
@@ -294,12 +318,14 @@ const Product = () => {
                   className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg`}
                   >
                   <td className="px-4 py-1 w-[100px] text-black leading-[10px] text-[10px]">{index + 1}</td>
-                  <td className="px-2 py-1 w-[180px] text-black leading-[10px] text-[10px]">{product?.nameUz}</td>
-                  <td className="px-2 py-1 text-black w-[200px] text-[10px] leading-[12px]">
+                  <td className="px-2 py-1 w-[180px] text-black leading-[10px] text-center text-[10px]">{product?.nameUz}</td>
+                  <td className="px-2 py-1 text-black w-[200px] text-[10px] text-center leading-[12px]">
                     {shortDescription(product?.descriptionUz)}
                   </td>
-                  <td className="px-2 py-1 text-black w-[200px] text-[10px] leading-[12px]">
+                  <td className="px-2 py-1 text-black w-[200px] text-[10px] text-center leading-[12px]">
                     {a.find((category) => category?.id === product?.category?.id)?.nameUz || "Unknown"}
+                    {/* {a.find((category) => category?.id === editCategory)?.nameUz} */}
+                    {/* {foundCategory} */}
                   </td>
                   <td className="py-1 text-black w-[100px] text-[10px]">
                     <img
@@ -313,16 +339,16 @@ const Product = () => {
                       <img src={product?.imageUrls[0]} alt="" />
                     </div>
                   </td>
-                  <td className="px-2 py-1 text-black w-[120px] text-[10px] leading-[12px]">
+                  <td className="px-2 py-1 text-black w-[120px] text-center text-[10px] leading-[12px]">
                     {product?.sizes?.[0]?.size || "N/A"}
                   </td>
-                  <td className="px-2 py-1 text-black w-[100px] text-[10px] leading-[12px]">
+                  <td className="px-2 py-1 text-black w-[100px] text-center text-[10px] leading-[12px]">
                     {product?.sizes?.[0]?.table || "N/A"}
                   </td>
-                  <td className="px-2 py-1 text-black w-[100px] text-[10px] leading-[12px]">
+                  <td className="px-2 py-1 text-black w-[100px] text-center text-[10px] leading-[12px]">
                     {product?.sizes?.[0]?.chair || "N/A"}
                   </td>
-                  <td className="px-2 py-1 text-black w-[130px] text-[10px] leading-[12px]">
+                  <td className="px-2 py-1 text-black w-[130px] text-center text-[10px] leading-[12px]">
                     ${product?.sizes?.[0]?.price || "0"}
                   </td>
                   <td className="w-[130px]">
@@ -412,19 +438,26 @@ const Product = () => {
             {isOpen && (
               <div
                 className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
-                onClick={() => setIsOpen(false)}
-              >
+                onClick={(e) => e.stopPropagation()}>
                 <button
                   className="absolute top-5 right-5 cursor-pointer px-3 py-1 rounded-full text-lg shadow-lg"
-                  onClick={() => setIsOpen(false)}
-                >
+                  onClick={() => setIsOpen(false)}>
                   <IoIosCloseCircleOutline className="text-red-500 w-[30px] h-[30px]" />
                 </button>
+                <button
+              onClick={() => handleImageNavigation("prev")}
+              className="absolute left-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition">
+              <FaArrowLeft />
+            </button>
                 <img
                   className="max-w-[70%] max-h-[80%] object-contain rounded-lg shadow-lg"
                   src={selectedImage}
-                  alt="Enlarged"
-                />
+                  alt="Enlarged"/>
+            <button
+              onClick={() => handleImageNavigation("next")}
+              className="absolute right-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition">
+              <FaArrowRight />
+            </button>
               </div>
             )}
             {

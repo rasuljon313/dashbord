@@ -14,6 +14,11 @@ const Sidebar = () => {
   // const [selectedKeys, setSelectedKeys] = useState(["1"]);
   const {isOpen,editMode, delate,isOpenCategory,editModeCategory } = create()
   const navigate = useNavigate("")
+  // const d = localStorage.getItem("refresh_token")
+  // useEffect(() => {
+  //   navigate("/login")
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[d])
 const  delatetoken = (e) => {
   e.preventDefault();
    localStorage.removeItem("token")

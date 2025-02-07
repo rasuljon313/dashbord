@@ -11,6 +11,10 @@ const Modal = () => {
   const [loading, setLoading] = useState(false);
   // const [multipleImages, setMultipleImages] = useState([]);
   const token = localStorage.getItem("token"); 
+  // console.log(editMode ? editCategory : false);
+  // console.log(editCategory);
+  
+  
   const postData = async () => {
     
     try {
@@ -60,7 +64,6 @@ const Modal = () => {
       console.error('Error occurred:', error);
     }
   };
-console.log(res?.category);
 
   const choseSingleImg = async (e) => {
     const selectedFile = e.target.files[0]; 
@@ -80,6 +83,8 @@ console.log(res?.category);
   
     setMultiple([...multiple, ...uploadedImages.filter(Boolean)]);
   };
+
+
 
   const uploadFile = async (file, setImageState) => {
     if (!file) {
@@ -151,6 +156,7 @@ console.log(res?.category);
     setSelectedCategory("");
     setGetimg(""); // Reset image URL
     setMultiple([])
+
   };
 
   const closeModal = () => {
@@ -171,9 +177,6 @@ console.log(res?.category);
     setSelect("")
   };
 
-  const handleSelectChange = (event) => {
-    setSelectedCategory(event.target.value);
-  };
   
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -317,7 +320,7 @@ console.log(res?.category);
             </div>
             <div className="space-y-2 flex flex-col items-center justify-center">
               <label className="block text-sm font-medium text-gray-700">Chair</label>
-              <input name="chair" type="text" required placeholder="Chair" value={chair || ""} onChange={(e) => setselectchair(e.target.value)} required
+              <input name="chair" type="text" required placeholder="Chair" value={chair || ""} onChange={(e) => setselectchair(e.target.value)} 
               className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"/>
             </div>
             <div className="space-y-2 flex flex-col items-center justify-center">
@@ -327,7 +330,7 @@ console.log(res?.category);
             </div>
             <div className="space-y-2 flex flex-col items-center justify-center">
               <label className="block text-sm font-medium text-gray-700">Category</label>
-              <select value={editCategory || ""} required onChange={handleSelectChange} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]">
+              <select required onChange={(e) => setSelectedCategory(e.target.value)} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]">
                 <option value="">Choose category</option>
                 {select.length > 0 ? (
                   select.map((category) => (
