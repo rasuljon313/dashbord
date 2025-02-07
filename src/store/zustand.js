@@ -22,6 +22,9 @@ const useSidebarStore = create((set) => ({
   
   delateName: null,
   setDelateName: (product) => set(() => ({ delateName: product })),
+
+  delateNameCateg: null,
+  setDelateNameCateg: (product) => set(() => ({delateNameCateg: product })),
   
   selectednameUz: null,
   setSelectednameUz: (product) => set(() => ({ selectednameUz: product })),
@@ -49,7 +52,6 @@ const useSidebarStore = create((set) => ({
   setSelecteddescrRU: (product) => set(() => ({ desRu: product })),
   desEn: null,
   setSelecteddescrEN: (product) => set(() => ({ desEn: product })),
-
 
   editPrice: null,
   setSelectedPrice: (product) => set(() => ({ editPrice: product })),

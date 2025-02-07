@@ -4,11 +4,13 @@ import axios from "axios";
 import { useState } from "react";
 
 function DelateModal() {
-  const { delateName, setDelate,delatee,delateCateg } = create();
+  const { delateName, setDelate,delatee,delateCateg,delateNameCateg, } = create();
   const token = localStorage.getItem("token")
   const [loading, setLoading] = useState(false);
+  console.log(delateNameCateg);
+  
   const shortName = (name) => {
-    if (!name) return "Nomsiz"; 
+    if (!name) return `${delateNameCateg}`; 
     const words = name.split(/\s+/); 
     return words.length > 3 ? `${words.slice(0, 3).join(" ")}...` : name;
   };
@@ -39,7 +41,7 @@ function DelateModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-    <div className="relative w-full max-w-2xl p-8 rounded-2xl shadow-xl bg-white">
+    <div className="relative max-w-2xl p-8 rounded-2xl shadow-xl bg-white w-[500px]">
       <div className="flex items-center justify-between pb-4 border-b border-gray-300">
         <h3 className="truncate">Are you sure! You want to <span className="text-red-600">Delete</span> {shortName(delateName)}?</h3>
         <button onClick={close} className="transition-all duration-300 hover:text-red-600 hover:bg-red-200 cursor-pointer rounded-lg w-8 h-8 flex items-center justify-center dark:hover:text-red absolute top-2 right-2">

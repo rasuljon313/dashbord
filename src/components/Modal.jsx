@@ -5,13 +5,14 @@ import axios from "axios";
 
 const Modal = () => {
   const { toggleIsOpen, setEditMode,
-     editMode, selectednameUz, setSelectednameRu, selectednameRu, desUz, desRu, desEn, editPrice, editSize, selectednameEn, editCategory, setSelectednameUz, editIdUrl, setSelectednameEn, setSelecteddescrUz, setSelecteddescrRU, setSelecteddescrEN, setSelectedPrice, setSelectedSize, setSelectedCategory, setselectchair, setselecttable, table, chair, setGetimg, getImg, serResponse, res,setSelect,select
+     editMode, selectednameUz,setMultiple,multiple, setSelectednameRu, selectednameRu, desUz, desRu, desEn, editPrice, editSize, selectednameEn, editCategory, setSelectednameUz, editIdUrl, setSelectednameEn, setSelecteddescrUz, setSelecteddescrRU, setSelecteddescrEN, setSelectedPrice, setSelectedSize, setSelectedCategory, setselectchair, setselecttable, table, chair, setGetimg, getImg, serResponse, res,setSelect,select
   } = create();
 
   const [loading, setLoading] = useState(false);
-  const [multipleImagess, setMultipleImagess] = useState([]);
+  // const [multipleImages, setMultipleImages] = useState([]);
   const token = localStorage.getItem("token"); 
   const postData = async () => {
+    
     try {
       const productData = {
         nameUz: selectednameUz,
@@ -21,7 +22,7 @@ const Modal = () => {
         descriptionRu: desRu,
         descriptionEn: desEn,
         imageUrl: getImg,
-        imageUrls: multipleImagess,
+        imageUrls: multiple,
         sizes: [{
           size: editSize,
           chair: +chair,
@@ -59,6 +60,7 @@ const Modal = () => {
       console.error('Error occurred:', error);
     }
   };
+console.log(res?.category);
 
   const choseSingleImg = async (e) => {
     const selectedFile = e.target.files[0]; 
@@ -76,7 +78,7 @@ const Modal = () => {
       })
     );
   
-    setMultipleImagess((prev) => [...prev, ...uploadedImages.filter(Boolean)]);
+    setMultiple([...multiple, ...uploadedImages.filter(Boolean)]);
   };
 
   const uploadFile = async (file, setImageState) => {
@@ -148,7 +150,7 @@ const Modal = () => {
     setSelectedSize("");
     setSelectedCategory("");
     setGetimg(""); // Reset image URL
-    setMultipleImagess([])
+    setMultiple([])
   };
 
   const closeModal = () => {
@@ -172,9 +174,6 @@ const Modal = () => {
   const handleSelectChange = (event) => {
     setSelectedCategory(event.target.value);
   };
-
-  console.log(multipleImagess);
-
   
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -297,9 +296,10 @@ const Modal = () => {
         onChange={choseMultipleImg}
         className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
         multiple
+        disabled={editMode}
         />
       <div className="flex flex-wrap gap-2 w-[100px]">
-        {editMode && multipleImagess.map((img, index) => (
+        {editMode && multiple.map((img, index) => (
        <img key={index} src={img} alt={`Uploaded ${index}`} className="w-10 h-10" />
          ))}
     <div className="flex flex-wrap gap-2 w-full">

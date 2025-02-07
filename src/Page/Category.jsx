@@ -4,7 +4,7 @@ import create from "../store/zustand";
 import { useState, useEffect } from "react";
 import axios from "axios";
 const Category = () => {
-  const { setEditModeCategory, setDelate,setDelateCateg, setDelateName,toggleIsOpenCategory,setSelectedCategnameUz,setSelectedCategnameRu,setSelectedCategnameEn,setSelectIDUrlCateg,serResponseC,resc,editModeCategory } = create();
+  const { setEditModeCategory, setDelate,setDelateCateg, setDelateNameCateg,toggleIsOpenCategory,setSelectedCategnameUz,setSelectedCategnameRu,setSelectedCategnameEn,setSelectIDUrlCateg,serResponseC,resc,editModeCategory } = create();
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false)
   const [selectedProduct, setSelectedProductDetails] = useState(null);
@@ -49,7 +49,7 @@ const Category = () => {
       setDelateCateg(id);
     }
     setDelateCateg(id)
-    setDelateName(name);
+    setDelateNameCateg(name);
     setDelate(true);
   };
 
@@ -93,7 +93,7 @@ const Category = () => {
            <button
       onClick={createProduct}
       className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">
-      Add New Product
+      Add New Category
     </button>
         </div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-lg overflow-hidden">
@@ -128,7 +128,7 @@ const Category = () => {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            handDElate(product?.id, product?.name, true);}}
+            handDElate(product?.id, product?.nameUz, true);}}
           className="w-[50px] h-10 flex justify-center items-center cursor-pointer dark:text-red-600">
           <FaRegTrashCan className="w-[15px] h-full" />
         </button>

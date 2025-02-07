@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { AiOutlineFieldNumber } from "react-icons/ai";
+import { IoEyeOutline } from "react-icons/io5";
 
 const Product = () => {
   const {
     setEditMode,
     editMode,
     setMultiple,
-    setMultipleImages,
     setSelectednameUz,
     setGetimg,
     setSelectednameEn,
@@ -135,7 +135,7 @@ const Product = () => {
     setselecttable(product?.sizes?.[0]?.table);
     setSelectedCategory(product?.category?.id);
     setGetimg(product?.imageUrl);
-    setMultipleImages(product?.imageUrls?.map((i) => setMultiple(i)));
+    setMultiple(product?.imageUrls?.map((i) =>(i)));
     setEditMode(true);
     seta(product);
   };
@@ -204,22 +204,25 @@ const Product = () => {
     <>
       <div className="relative px-4">
         <div className="flex gap-[50px] mb-[15px]">
-          <select
-            className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
-            value={selectedCategoryId}
-            onChange={handleCategoryChange}
-          >
-            <option value="">Choose category</option>
-            {a.length > 0 ? (
-              a.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.nameUz}
-                </option>
-              ))
-            ) : (
-              <option disabled>Loading...</option>
-            )}
-          </select>
+<select
+  className="bg-gray-200 text-gray-500 rounded-lg outline-none px-4 py-2 text-sm w-[255px] transition-all ease-in-out duration-200 appearance-none "
+  value={selectedCategoryId}
+  onChange={handleCategoryChange}
+>
+  <option value="" className="text-gray-500">
+    Choose category
+  </option>
+  {a.length > 0 ? (
+    a.map((category) => (
+      <option key={category.id} value={category.id} className="bg-white text-black hover:bg-gray-200">
+        {category.nameUz}
+      </option>
+    ))
+  ) : (
+    <option disabled>Loading...</option>
+  )}
+</select>
+
           <div className="ml-auto relative">
             <input
               type="text"
@@ -271,7 +274,7 @@ const Product = () => {
               <th scope="col" className="px-2 py-3 text-[10px]">
                 Price
               </th>
-              <th scope="col" className="px-2 py-3 text-[10px]">
+              <th scope="col" className="px-2 py-3 text-center text-[10px]">
                 Action
               </th>
             </tr>
@@ -287,9 +290,9 @@ const Product = () => {
               filteredProducts.map((product, index) => (
                 <tr
                   key={product?.id}
-                  onClick={() => openModal(product)}
-                  className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg cursor-pointer`}
-                >
+                  // onClick={() => openModal(product)}
+                  className={`${index % 2 === 0 ? "bg-gray-200" : "bg-white"} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg`}
+                  >
                   <td className="px-4 py-1 w-[100px] text-black leading-[10px] text-[10px]">{index + 1}</td>
                   <td className="px-2 py-1 w-[180px] text-black leading-[10px] text-[10px]">{product?.nameUz}</td>
                   <td className="px-2 py-1 text-black w-[200px] text-[10px] leading-[12px]">
@@ -307,15 +310,7 @@ const Product = () => {
                   </td>
                   <td className="px-2 py-1 text-black w-[100px] text-[10px]">
                     <div className="flex space-x-2">
-                      {product?.imageUrls?.length > 0 &&
-                        product.imageUrls.map((image, idx) => (
-                          <img
-                            key={idx}
-                            src={image}
-                            alt={`Option ${idx + 1}`}
-                            className="w-[50px] h-[50px] object-contain"
-                          />
-                        ))}
+                      <img src={product?.imageUrls[0]} alt="" />
                     </div>
                   </td>
                   <td className="px-2 py-1 text-black w-[120px] text-[10px] leading-[12px]">
@@ -332,6 +327,14 @@ const Product = () => {
                   </td>
                   <td className="w-[130px]">
                     <div className="flex items-center gap-2">
+                    <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openModal(product)
+                        }}
+                        className="w-[50px] h-10 flex justify-center items-center cursor-pointer text-black">
+                        <IoEyeOutline className="w-[20px] h-full" />
+                      </button>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -346,8 +349,7 @@ const Product = () => {
                           e.stopPropagation();
                           handDElate(product?.id, product?.nameUz);
                         }}
-                        className="w-[50px] h-10 flex justify-center items-center cursor-pointer dark:text-red-600"
-                      >
+                        className="w-[50px] h-10 flex justify-center items-center cursor-pointer dark:text-red-600">
                         <FaRegTrashCan className="w-[15px] h-full" />
                       </button>
                     </div>
@@ -368,8 +370,7 @@ const Product = () => {
       {modalOpen && selectedProduct && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
-          onClick={closeModal}
-        >
+          onClick={closeModal}>
           <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-96" onClick={(e) => e.stopPropagation()}>
             <p className="text-[16px] mb-4">
               <strong className="mr-1">Name:</strong>
@@ -426,16 +427,15 @@ const Product = () => {
                 />
               </div>
             )}
-            {products.length > 0 ? (
-              <ul>
+            {
+  products && 
+  <ul>
                 {products.map((product) => (
                   <li key={product.id}>{product.nameUz}</li>
                 ))}
               </ul>
-            ) : (
-              <p>Mahsulotlar topilmadi.</p>
-            )}
 
+            }
             <button
               onClick={closeModal}
               className="transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red"
