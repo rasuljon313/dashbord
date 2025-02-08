@@ -326,7 +326,7 @@ const Modal = () => {
             </div>
             <div className="space-y-2 flex flex-col items-center justify-center">
               <label className="block text-sm font-medium text-gray-700">Category</label>
-              <select required onChange={(e) => setSelectedCategory(e.target.value)} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]">
+              <select value={editCategory || ""} required onChange={(e) => setSelectedCategory(e.target.value)} className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]">
                 <option value="">Choose category</option>
                 {select.length > 0 ? (
                   select.map((category) => (
