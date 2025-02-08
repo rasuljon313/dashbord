@@ -316,12 +316,12 @@ const Modal = () => {
             </div>
             <div className="space-y-2 flex flex-col items-center justify-center">
               <label className="block text-sm font-medium text-gray-700">Chair</label>
-              <input name="chair" type="text" required placeholder="Chair" value={chair || ""} onChange={(e) => setselectchair(e.target.value)} 
+              <input name="chair" type="text" placeholder="Chair" value={chair || ""} onChange={(e) => setselectchair(e.target.value)} 
               className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"/>
             </div>
             <div className="space-y-2 flex flex-col items-center justify-center">
               <label className="block text-sm font-medium text-gray-700">Table</label>
-              <input name="table" type="text" placeholder="Tables" value={table || ""} onChange={(e) => setselecttable(e.target.value)} required
+              <input name="table" type="text" placeholder="Tables" value={table || ""} onChange={(e) => setselecttable(e.target.value)}
               className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"/>
             </div>
             <div className="space-y-2 flex flex-col items-center justify-center">

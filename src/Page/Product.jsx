@@ -151,6 +151,7 @@ const Product = () => {
   };
 
   const shortDescription = (descr) => {
+    if (!descr) return "";
     const words = descr.split(/\s+/);
     if (words.length > 10) {
       return `${words.slice(0, 18).join(" ")}...`;
@@ -315,23 +316,25 @@ const Product = () => {
                   <td className="px-4 py-1 w-[100px] text-black leading-[10px] text-[10px]">{index + 1}</td>
                   <td className="px-2 py-1 w-[180px] text-black leading-[10px] text-center text-[10px]">{product?.nameUz}</td>
                   <td className="px-2 py-1 text-black w-[200px] text-[10px] text-center leading-[12px]">
-                    {shortDescription(product?.descriptionUz)}
+                    {shortDescription(product?.descriptionUz) || ""}
                   </td>
                   <td className="px-2 py-1 text-black w-[200px] text-[10px] text-center leading-[12px]">
                     {a.find((category) => category?.id === product?.category?.id)?.nameUz || "Unknown"}
                     {/* {a.find((category) => category?.id === editCategory)?.nameUz} */}
                     {/* {foundCategory} */}
                   </td>
-                  <td className="py-1 text-black w-[100px] text-[10px]">
+                  <td className="px-2 py-1 text-black w-[100px] text-[10px]">
+                    <div className="flex space-x-2">
                     <img
                       src={product?.imageUrl || ""}
                       alt="Product Image"
                       className="border border-transparent rounded-lg outline-none w-[200px] h-[50px] object-contain"
                     />
+                    </div>
                   </td>
                   <td className="px-2 py-1 text-black w-[100px] text-[10px]">
                     <div className="flex space-x-2">
-                      <img src={product?.imageUrls[0]} alt="" />
+                      <img src={product?.imageUrls[0]} alt="Product Image" />
                     </div>
                   </td>
                   <td className="px-2 py-1 text-black w-[120px] text-center text-[10px] leading-[12px]">
