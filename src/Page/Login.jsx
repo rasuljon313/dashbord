@@ -9,6 +9,7 @@ const Login = () => {
   const [number, setNumber] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   function submit(e) {
@@ -30,14 +31,15 @@ const Login = () => {
                     localStorage.setItem('token', accessToken);
                     navigate("/"); 
             } else {
-          console.error("No access token found in the response");
+              setError(true)
         }
       } else {
         toast.error(response?.data?.message || "Username or password is wrong");
+        setError(true)
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      setError(true);
       toast.error(error?.response?.data?.message || "Error occurred while logging in");
     })
     .finally(() => {
@@ -57,23 +59,25 @@ const Login = () => {
           <form onSubmit={submit} className="space-y-6">
             <div>
               <input
-               className="w-full px-4 py-3 border rounded-lg shadow-sm bg-gray-100 select-none placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 border-gray-300 transition-all duration-300 ease-in-out"
-                type="text"
+              className={`w-full px-4 py-3 border rounded-lg shadow-sm bg-gray-100 select-none placeholder-gray-600 focus:outline-none focus:ring-2 transition-all duration-300 ease-in-out ${error ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-blue-200'}`}
+              type="text"
                 value={number}
                 onChange={(e) => setNumber(e.target.value)}
                 placeholder="Username"
                 required
               />
+              {error && <p className="text-red-500 text-xs mt-1 transition-opacity duration-500 ease-in-out opacity-100">Invalid username or password</p>}
             </div>
             <div>
               <input
-                className="w-full px-4 py-3 border rounded-lg shadow-sm bg-gray-100 select-none placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 border-gray-300 transition-all duration-300 ease-in-out"
-                type="password"
+              className={`w-full px-4 py-3 border rounded-lg shadow-sm bg-gray-100 select-none placeholder-gray-600 focus:outline-none focus:ring-2 transition-all duration-300 ease-in-out ${error ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-blue-200'}`}
+              type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
                 required
               />
+              {error && <p className="text-red-500 text-xs mt-1 transition-opacity duration-500 ease-in-out opacity-100">Invalid username or password</p>}
             </div>
             <div>
               <button
