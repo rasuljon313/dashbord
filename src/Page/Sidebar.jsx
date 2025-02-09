@@ -7,7 +7,6 @@ import create  from "../store/zustand";
 import Modal from "../components/Modal"
 import DelateModal from "../components/DelateModal";
 import CategoryM from "../components/CategoryM";
-import tree from "../assets/2025-01-28 15.42.39.jpg";
 import logo from "../assets/Chinar Mebel (1).png";
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false); 
@@ -45,12 +44,9 @@ useEffect(() => {
             to="/"
             className={`flex w-[100%] items-center justify-center transition-all duration-300 ease-in-out ${collapsed ? "h-8 w-8" : "h-10 w-full bg-gray-300"}`}>
             <span
-              className={`text-center font-bold w-[100%] transition-all duration-300 ${collapsed ? "text-xs" : "text-lg"}`}>
-<div className="flex items-center ml-2 gap-6">
-  <img className="w-[25px] h-[25px] mr-2" src={tree} alt="Tree" />
-  <img
+              className={`text-center flex items-center justify-center font-bold w-[100%] transition-all duration-300 ${collapsed ? "text-xs" : "text-lg"}`}>
+ <img
     className={`h-[30px] ${collapsed ? "w-0" : "w-auto"}`}src={logo} alt="Logo"/>
-</div>
             </span>
           </Link>
         </div>

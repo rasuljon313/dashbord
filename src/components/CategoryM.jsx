@@ -2,6 +2,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import create from "../store/zustand";
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 function CategoryM() {
   const {
@@ -86,14 +87,14 @@ const [loading, setLoading] = useState(false);
       });
   
       if (!editModeCategory) {
-        // Yangi kategoriya qo'shish
         serResponseC([...resc, response.data.data]);
+        toast.success('Muvaffaqiyatli bajarildi! 🎉');
       } else {
-        // Mavjud kategoriyani yangilash
         const updatedProducts = resc.map(product =>
           product.id === response.data.data.id ? response.data.data : product
         );
         serResponseC(updatedProducts);
+        toast.success('Qayta yangilanish muvaffaqiyatli bajarildi! 🎉');
       }
     } catch (error) {
       console.error("Error occurred:", error);
@@ -129,8 +130,7 @@ const [loading, setLoading] = useState(false);
           </h3>
           <button
             onClick={closeModal}
-            className="text-gray-500 hover:text-red-500 transition-all"
-          >
+            className="text-gray-500 hover:text-red-500 transition-all">
             <IoIosCloseCircleOutline size={32} />
           </button>
         </div>

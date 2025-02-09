@@ -2,6 +2,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import create from "../store/zustand";
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 function DelateModal() {
   const { delateName, setDelate,delatee,delateCateg,delateNameCateg, } = create();
@@ -30,6 +31,7 @@ function DelateModal() {
       if (response) {
         close();
         window.location.reload();
+        toast.success('Muvaffaqiyatli ochirildi! 🎉');
       }
     } catch (error) {
       console.error("Error deleting item:", error);

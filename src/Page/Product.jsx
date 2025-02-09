@@ -20,18 +20,15 @@ const Product = () => {
     setSelecteddescrUz,
     setSelecteddescrRU,
     setSelecteddescrEN,
-    setSelectedPrice,
     setDelate,
     setDelateName,
-    setSelectedSize,
     setSelectedCategory,
-    setselectchair,
-    setselecttable,
     seta,
     serResponse,
     res,
     setDelatee,
     toggleIsOpen,
+    setSizes
   } = useSidebarStore();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -133,15 +130,15 @@ const Product = () => {
     setSelecteddescrUz(product?.descriptionUz);
     setSelecteddescrRU(product?.descriptionRu);
     setSelecteddescrEN(product?.descriptionEn);
-    setSelectedSize(product?.sizes?.[0]?.size);
-    setSelectedPrice(product?.sizes?.[0]?.price);
-    setselectchair(product?.sizes?.[0]?.chair);
-    setselecttable(product?.sizes?.[0]?.table);
+    // setSelectedPrice(product?.sizes?.[0]?.price);
+    // setselectchair(product?.sizes?.[0]?.chair);
+    // setselecttable(product?.sizes?.[0]?.table);
     setSelectedCategory(product?.category?.id);
     setGetimg(product?.imageUrl);
     setMultiple(product?.imageUrls?.map((i) =>(i)));
     setEditMode(true);
     seta(product);
+    setSizes(product?.sizes)
   };
 
   const handDElate = (id, name) => {
@@ -151,13 +148,15 @@ const Product = () => {
   };
 
   const shortDescription = (descr) => {
-    if (!descr) return "";
+    if (!descr) return "N/A";
     const words = descr.split(/\s+/);
     if (words.length > 10) {
       return `${words.slice(0, 18).join(" ")}...`;
     }
     return descr;
   };
+  // console.log(multiple.length+1);
+  
 
   const openModal = (product) => {
     setSelectedProductDetails(product);
@@ -198,11 +197,12 @@ const Product = () => {
   };
 
   const filteredProducts = (selectedCategoryId ? products : res || []).filter((product) => {
-    return (
-      product.nameUz.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.descriptionUz.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const name = product.nameUz ? product.nameUz.toLowerCase() : "";
+    const description = product.descriptionUz ? product.descriptionUz.toLowerCase() : "";
+    
+    return name.includes(searchTerm.toLowerCase()) || description.includes(searchTerm.toLowerCase());
   });
+
   const handleImageNavigation = (direction) => {
     if (!selectedProduct || !selectedProduct.imageUrls) return;
 
@@ -334,7 +334,7 @@ const Product = () => {
                   </td>
                   <td className="px-2 py-1 text-black w-[100px] text-[10px]">
                     <div className="flex space-x-2">
-                      <img src={product?.imageUrls[0]} alt="Product Image" />
+                      {product?.imageUrls.length > 0 ? <img src={product?.imageUrls[0]} alt="Product img" /> : "No Picture"}
                     </div>
                   </td>
                   <td className="px-2 py-1 text-black w-[120px] text-center text-[10px] leading-[12px]">

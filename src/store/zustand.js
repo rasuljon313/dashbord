@@ -70,7 +70,7 @@ const useSidebarStore = create((set) => ({
   
   getImg: "",
   setGetimg: (product) => set(() => ({ getImg: product })),
-
+  
   editIdUrl: "",
   setSelectIDUrl: (id) => set(() => ({ editIdUrl: id })),
   
@@ -97,6 +97,9 @@ const useSidebarStore = create((set) => ({
 
   multiple: [],
   setMultiple: (product) => set(() => ({ multiple: product })),
+
+  sizes: [],
+  setSizes: (product) => set(() => ({ sizes: product })),
   
 
 
