@@ -126,7 +126,7 @@ const [loading, setLoading] = useState(false);
       <div className="relative w-full max-w-2xl p-8 rounded-2xl shadow-xl bg-gray-200" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between pb-4 border-b border-gray-300">
           <h3 className="text-2xl font-semibold text-gray-800">
-            {loading ? "Loading..." : editModeCategory ? " Kategoriyani tahrirlash" : "Yangi kategoriya qoshish"}
+            {loading ? "Yuklanmoqda..." : editModeCategory ? " Kategoriyani tahrirlash" : "Yangi kategoriya qo'shish"}
           </h3>
           <button
             onClick={closeModal}
@@ -181,9 +181,8 @@ const [loading, setLoading] = useState(false);
           </div>
           <button
             type="submit"
-            className="transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red"
-          >
-            {loading ? "Loading..." : editModeCategory ? "Kategoryiyani yangilash" : "Kategoriya qo‘shish"}
+            className="transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red">
+            {loading ? "Yuklanmoqda..." : editModeCategory ? "Kategoriyani tahrirlash" : "Kategoriya qo‘shish"}
           </button>
         </form>
       </div>

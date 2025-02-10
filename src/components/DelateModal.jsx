@@ -2,9 +2,10 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import create from "../store/zustand";
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 function DelateModal() {
-  const { delateName, setDelate,delatee,delateCateg,delateNameCateg, } = create();
+  const { delateName, setDelate,delatee,delateCateg,delateNameCateg } = create();
   const token = localStorage.getItem("token")
   const [loading, setLoading] = useState(false);
   
@@ -29,7 +30,12 @@ function DelateModal() {
       });
       if (response) {
         close();
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        toast.success("Mahsulot o'chirildi",{
+          duration:1000
+        })
       }
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -53,7 +59,7 @@ function DelateModal() {
      disabled={loading}
      className={`transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red ${
        loading ? "cursor-not-allowed opacity-50" : ""
-     }`}> {loading ? "Loading..." : "O'chirish"}
+     }`}> {loading ? "Yuklanmoqda..." : "O'chirish"}
 </button>
 
 <button 

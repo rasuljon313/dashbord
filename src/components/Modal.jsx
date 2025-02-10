@@ -6,7 +6,9 @@ import toast from "react-hot-toast";
 
 const Modal = () => {
   const { toggleIsOpen, setEditMode,
-     editMode, selectednameUz,setSizes,sizes,setMultiple,multiple, setSelectednameRu, selectednameRu, desUz, desRu, desEn, editPrice, editSize, selectednameEn, editCategory, setSelectednameUz, editIdUrl, setSelectednameEn, setSelecteddescrUz, setSelecteddescrRU, setSelecteddescrEN, setSelectedPrice, setSelectedSize, setSelectedCategory, setselectchair, setselecttable, table, chair, setGetimg, getImg, serResponse, res,setSelect,select
+     editMode, selectednameUz,setSizes,sizes,setMultiple,multiple, setSelectednameRu, selectednameRu, desUz, desRu, desEn, editPrice, editSize, selectednameEn, editCategory, setSelectednameUz, editIdUrl, setSelectednameEn, setSelecteddescrUz, setSelecteddescrRU, setSelecteddescrEN, setSelectedPrice, setSelectedSize, setSelectedCategory, setselectchair, setselecttable, table, chair, setGetimg, getImg,
+      serResponse, res,
+      setSelect,select
   } = create();
 
   const [loading, setLoading] = useState(false);
@@ -62,7 +64,6 @@ const Modal = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
       if (!editMode) {
         serResponse([...res, response.data.data]);
         toast.success('Muvaffaqiyatli bajarildi! 🎉',{
@@ -78,7 +79,7 @@ const Modal = () => {
         });
       }
     } catch (error) {
-      toast.success('Error occurred:',{
+      toast.success('Qayta urining:',{
         duration: 5000,
       }, error);
     }
@@ -151,7 +152,6 @@ const Modal = () => {
     setLoading(true);
   
     if (!editMode && !getImg) {
-      console.error("Fayl tanlanmagan!");
       setLoading(false);
       return;
     }
@@ -199,7 +199,7 @@ const Modal = () => {
       <div className="relative w-full max-w-2xl p-3 rounded-2xl shadow-xl bg-gray-200" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between p-1 border-b border-gray-300">
           <h3 className="text-[18px] font-semibold text-gray-800">
-            {loading ? "Loading..." : editMode ? "Mahsulotni tahrirlash" : "Yangi mahsulot qo‘shish"}
+            {loading ? "Yuklanmoqda..." : editMode ? "Mahsulotni tahrirlash" : "Yangi mahsulot qo‘shish"}
           </h3>
           <button onClick={closeModal} className="text-gray-500 hover:text-red-500 transition-all">
             <IoIosCloseCircleOutline size={32} />
@@ -292,7 +292,7 @@ const Modal = () => {
                     </option>
                   ))
                 ) : (
-                  <option disabled>Loading...</option>
+                  <option disabled>Yuklanmoqda...</option>
                 )}
               </select>
             </div>
@@ -387,7 +387,7 @@ const Modal = () => {
       className={`transition-all duration-600 text-white px-[15px] py-[8px] shadow-2xl 
         ${sizes.length === 0 ? "bg-gray-300 cursor-not-allowed" : "bg-gray-400 hover:bg-gray-500 cursor-pointer"} 
         rounded-lg flex items-center justify-center`}>
-{loading ? "Loading..." : editMode ? "Mahsulotni yangilash" : "Yangi mahsulot yaratish"}
+{loading ? "Yuklanmoqda..." : editMode ? "Mahsulotni yangilash" : "Yangi mahsulot yaratish"}
 </button>
         </form>
       </div>

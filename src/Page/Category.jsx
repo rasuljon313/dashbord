@@ -94,7 +94,7 @@ const Category = () => {
            <button
       onClick={createProduct}
       className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">
-      Yangi mahsulot qoshish
+      {`Yangi kategoriya qo'shish`}
     </button>
         </div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-lg overflow-hidden">
@@ -109,7 +109,7 @@ const Category = () => {
           <tbody>
           {loading ? (
       <tr>
-        <td colSpan="10" className="text-center py-4 text-lg font-semibold">Loading...</td>
+        <td colSpan="10" className="text-center py-4 text-lg font-semibold">Yuklanmoqda...</td>
       </tr>
     ) : resc?.map((product,index) => (            
   <tr key={product.id} className={`${index % 2 === 0 ? 'bg-gray-200' : 'bg-white'} border-b border-gray-400 hover:bg-gray-300 transition-all duration-300 hover:shadow-lg`}>

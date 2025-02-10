@@ -28,7 +28,7 @@ const Product = () => {
     res,
     setDelatee,
     toggleIsOpen,
-    setSizes
+    setSizes,
   } = useSidebarStore();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -40,14 +40,11 @@ const Product = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [Img, setIMg] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [mainImg, setMainimg] = useState("")
 
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
     setIsOpen(true);
-    setMainimg(imageUrl);
   };
 
   const token = localStorage.getItem("token");
@@ -133,9 +130,6 @@ const Product = () => {
     setSelecteddescrUz(product?.descriptionUz);
     setSelecteddescrRU(product?.descriptionRu);
     setSelecteddescrEN(product?.descriptionEn);
-    // setSelectedPrice(product?.sizes?.[0]?.price);
-    // setselectchair(product?.sizes?.[0]?.chair);
-    // setselecttable(product?.sizes?.[0]?.table);
     setSelectedCategory(product?.category?.id);
     setGetimg(product?.imageUrl);
     setMultiple(product?.imageUrls?.map((i) =>(i)));
@@ -158,9 +152,7 @@ const Product = () => {
     }
     return descr;
   };
-  // console.log(multiple.length+1);
   
-
   const openModal = (product) => {
     setSelectedProductDetails(product);
     setModalOpen(true);
@@ -217,44 +209,22 @@ const Product = () => {
     } else if (direction === "next") {
       newIndex = selectedImageIndex === totalImages - 1 ? 0 : selectedImageIndex + 1;
     }
-
     setSelectedImage(selectedProduct.imageUrls[newIndex]);
     setSelectedImageIndex(newIndex);
+    window.addEventListener("keydown", direction)
+    return () => {
+      window.removeEventListener("keydown", direction);
+    }
+   
   };
-  const handleImage = (e) => {
-    setIMg(e)
-    setIsOpen(true);
-    setMainimg(e);
-  }
 
   return (
     <>
       <div className="relative px-4">
         <div className="flex gap-[50px] mb-[15px]">
-{/* <select
-  className="bg-gray-200 text-gray-500 rounded-lg outline-none px-4 py-2 text-sm w-[255px] transition-all ease-in-out duration-200 appearance-none "
-  value={selectedCategoryId}
-  onChange={handleCategoryChange}>
-  <option value="" className="text-gray-500">
-    Choose category
-  </option>
-    <option value="" disabled hidden>
-    Kategoriyani tanlang
-    </option>
-    <option value="">Barcha kategoriyalar</option>
-  {a.length > 0 ? (
-    a.map((category) => (
-      <option key={category.id} value={category.id} className="bg-white text-black hover:bg-gray-200">
-        {category.nameUz}
-      </option>
-    ))
-  ) : (
-    <option disabled>Loading...</option>
-  )}
-</select> */}
 <select
   className="bg-gray-200 text-gray-500 rounded-lg outline-none px-4 py-2 text-sm w-[255px] transition-all ease-in-out duration-200 appearance-none "
-  value={selectedCategoryId ?? "all"} // Agar qiymat yo'q bo'lsa "all" ko'rsatilsin
+  value={selectedCategoryId ?? "all"}
   onChange={handleCategoryChange}
   placeholder={"Kategoriyani tanlang "}>
   <option value="">Barcha kategoriyalar</option>
@@ -265,7 +235,7 @@ const Product = () => {
       </option>
     ))
   ) : (
-    <option disabled>Loading...</option>
+    <option disabled>Yuklanmoqda...</option>
   )}
 </select>
 
@@ -328,7 +298,7 @@ const Product = () => {
             {loding ? (
               <tr>
                 <td colSpan="10" className="text-center py-4 text-lg font-semibold">
-                  Loading...
+                Yuklanmoqda...
                 </td>
               </tr>
             ) : filteredProducts.length > 0 ? (
@@ -356,15 +326,12 @@ const Product = () => {
                     </div>
                   </td>
                   <td className="px-2 py-1 text-black w-[100px] text-[10px]">
-                    {/* <div className="flex space-x-2">
-                      {product?.imageUrls.length > 0 ? <img className="max-h-[55px] w-[75px] object-contain" src={product?.imageUrls[0]} alt="Product img" /> : "No Picture"}
-                    </div> */}
                     <div className="flex space-x-2 items-center justify-center">
   {product?.imageUrls.length > 0 ? (
     <img className="max-h-[55px] w-[75px] object-contain" src={product?.imageUrls[0]} alt="Product img" />
   ) : (
     <span className="flex items-center justify-center w-[75px] h-[55px] border border-gray-300">
-      Rasm yoq
+      Rasm mavjud emas
     </span>
   )}
 </div>
@@ -416,7 +383,7 @@ const Product = () => {
             ) : (
               <tr>
                 <td colSpan="10" className="text-center py-4 text-lg font-semibold">
-                  No products found
+                  Mahsulot topilmadi
                 </td>
               </tr>
             )}
@@ -451,8 +418,10 @@ const Product = () => {
             <p className="text-[14px] mb-[3px]">
               <strong>Narx:</strong> {selectedProduct?.sizes?.[0]?.price}
             </p>
-            <img src={selectedProduct?.imageUrl} onClick={(e) => handleImage(e.target.src)} alt="" />
-            <div className="flex gap-3 overflow-x-auto">
+            <div className="w-full flex justify-center">
+            <img src={selectedProduct?.imageUrl} className="w-[200px]" alt="" />
+            </div>
+            <div className="flex gap-3 overflow-x-auto justify-center items-center mt-[10px]">
               {selectedProduct?.imageUrls.map((imageUrl) => (
                 <div key={imageUrl} className="flex-shrink-0">
                   <p className="flex items-center gap-5 text-[18px] mb-[10px]">
@@ -483,10 +452,9 @@ const Product = () => {
               className="absolute left-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition cursor-pointer">
               <FaArrowLeft />
             </button>
-            {/* <img className="max-w-[70%] max-h-[80%] object-contain rounded-lg shadow-lg" src={Img} alt="" /> */}
                 <img
                   className="max-w-[70%] max-h-[80%] object-contain rounded-lg shadow-lg"
-                  src={mainImg}
+                  src={selectedImage}
                   alt="Enlarged"/>
             <button
               onClick={(e) =>{e.stopPropagation()

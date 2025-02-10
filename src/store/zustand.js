@@ -101,6 +101,8 @@ const useSidebarStore = create((set) => ({
   sizes: [],
   setSizes: (product) => set(() => ({ sizes: product })),
   
+  tostify: false,
+  setTostify: (mode) => set(() => ({ tostify: mode })),
 
 
   // openCategoryM:false,
