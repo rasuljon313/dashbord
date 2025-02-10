@@ -42,7 +42,7 @@ const Product = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [Img, setIMg] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [mainImg, setMainimg] = useState()
+  const [mainImg, setMainimg] = useState("")
 
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);

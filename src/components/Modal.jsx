@@ -20,10 +20,10 @@ const Modal = () => {
     }
   
     const newSize = {
-      size: editSize.trim(),
+      size: editSize,
       chair: chair ? +chair : 0,
       table: table ? +table : 0,
-      price: editPrice ? +editPrice : 0,
+      price: editPrice.trim() ? +editPrice.trim() : 0,
     };
     setSizes([...sizes, newSize]);
     setSelectedSize("");
