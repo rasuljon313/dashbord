@@ -330,7 +330,7 @@ const Product = () => {
   {product?.imageUrls.length > 0 ? (
     <img className="max-h-[55px] w-[75px] object-contain" src={product?.imageUrls[0]} alt="Product img" />
   ) : (
-    <span className="flex items-center justify-center w-[75px] h-[55px] border border-gray-300">
+    <span className="flex items-center justify-center text-center w-[75px] h-[55px] border border-gray-300">
       Rasm mavjud emas
     </span>
   )}
