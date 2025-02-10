@@ -42,10 +42,12 @@ const Product = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [Img, setIMg] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [mainImg, setMainimg] = useState()
 
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
     setIsOpen(true);
+    setMainimg(imageUrl);
   };
 
   const token = localStorage.getItem("token");
@@ -222,6 +224,7 @@ const Product = () => {
   const handleImage = (e) => {
     setIMg(e)
     setIsOpen(true);
+    setMainimg(e);
   }
 
   return (
@@ -480,10 +483,10 @@ const Product = () => {
               className="absolute left-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition cursor-pointer">
               <FaArrowLeft />
             </button>
-            <img src={Img} alt="" />
+            {/* <img className="max-w-[70%] max-h-[80%] object-contain rounded-lg shadow-lg" src={Img} alt="" /> */}
                 <img
                   className="max-w-[70%] max-h-[80%] object-contain rounded-lg shadow-lg"
-                  src={selectedImage}
+                  src={mainImg}
                   alt="Enlarged"/>
             <button
               onClick={(e) =>{e.stopPropagation()

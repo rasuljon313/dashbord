@@ -12,7 +12,7 @@ const Modal = () => {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");  
   const handleAddSize = () => {
-    if (!editSize?.trim()) {
+    if (!editPrice?.trim()) {
       toast.error("Iltimos, o‘lchamni (size) kiriting!",{
         duration: 5000,
       });
