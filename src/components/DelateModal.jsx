@@ -42,7 +42,7 @@ function DelateModal() {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={close}>
     <div className="relative max-w-2xl p-8 rounded-2xl shadow-xl bg-white w-[500px]" onClick={(e) => e.stopPropagation()}>
       <div className="flex items-center justify-between pb-4 border-b border-gray-300">
-        <h3 className="truncate">Ishonchingiz komilmi <span className="text-red-600">{`O'chirishga`}</span> {shortName(delateName)}ni ?</h3>
+        <h3 className="truncate"> {shortName(delateName)}ni <span className="text-red-600">{`O'chirishga`}</span> ishonchingiz komilmi?</h3>
         <button onClick={close} className="transition-all duration-300 hover:text-red-600 hover:bg-red-200 cursor-pointer rounded-lg w-8 h-8 flex items-center justify-center dark:hover:text-red absolute top-2 right-2">
           <IoIosCloseCircleOutline className="w-5 h-5" />
         </button>
@@ -53,7 +53,7 @@ function DelateModal() {
      disabled={loading}
      className={`transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red ${
        loading ? "cursor-not-allowed opacity-50" : ""
-     }`}> {loading ? "Loading..." : "O'chirishga"}
+     }`}> {loading ? "Loading..." : "O'chirish"}
 </button>
 
 <button 

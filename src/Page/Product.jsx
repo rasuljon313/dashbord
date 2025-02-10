@@ -40,6 +40,7 @@ const Product = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [Img, setIMg] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const handleImageClick = (imageUrl) => {
@@ -218,23 +219,42 @@ const Product = () => {
     setSelectedImage(selectedProduct.imageUrls[newIndex]);
     setSelectedImageIndex(newIndex);
   };
-
+  const handleImage = (e) => {
+    setIMg(e)
+    setIsOpen(true);
+  }
 
   return (
     <>
       <div className="relative px-4">
         <div className="flex gap-[50px] mb-[15px]">
-<select
+{/* <select
   className="bg-gray-200 text-gray-500 rounded-lg outline-none px-4 py-2 text-sm w-[255px] transition-all ease-in-out duration-200 appearance-none "
   value={selectedCategoryId}
   onChange={handleCategoryChange}>
-  {/* <option value="" className="text-gray-500">
+  <option value="" className="text-gray-500">
     Choose category
-  </option> */}
+  </option>
     <option value="" disabled hidden>
     Kategoriyani tanlang
     </option>
     <option value="">Barcha kategoriyalar</option>
+  {a.length > 0 ? (
+    a.map((category) => (
+      <option key={category.id} value={category.id} className="bg-white text-black hover:bg-gray-200">
+        {category.nameUz}
+      </option>
+    ))
+  ) : (
+    <option disabled>Loading...</option>
+  )}
+</select> */}
+<select
+  className="bg-gray-200 text-gray-500 rounded-lg outline-none px-4 py-2 text-sm w-[255px] transition-all ease-in-out duration-200 appearance-none "
+  value={selectedCategoryId ?? "all"} // Agar qiymat yo'q bo'lsa "all" ko'rsatilsin
+  onChange={handleCategoryChange}
+  placeholder={"Kategoriyani tanlang "}>
+  <option value="">Barcha kategoriyalar</option>
   {a.length > 0 ? (
     a.map((category) => (
       <option key={category.id} value={category.id} className="bg-white text-black hover:bg-gray-200">
@@ -297,7 +317,7 @@ const Product = () => {
               Narx
               </th>
               <th scope="col" className="px-2 py-3 text-center text-[10px]">
-              Amal
+              Amallar
               </th>
             </tr>
           </thead>
@@ -341,7 +361,7 @@ const Product = () => {
     <img className="max-h-[55px] w-[75px] object-contain" src={product?.imageUrls[0]} alt="Product img" />
   ) : (
     <span className="flex items-center justify-center w-[75px] h-[55px] border border-gray-300">
-      Rasim yoq
+      Rasm yoq
     </span>
   )}
 </div>
@@ -428,6 +448,7 @@ const Product = () => {
             <p className="text-[14px] mb-[3px]">
               <strong>Narx:</strong> {selectedProduct?.sizes?.[0]?.price}
             </p>
+            <img src={selectedProduct?.imageUrl} onClick={(e) => handleImage(e.target.src)} alt="" />
             <div className="flex gap-3 overflow-x-auto">
               {selectedProduct?.imageUrls.map((imageUrl) => (
                 <div key={imageUrl} className="flex-shrink-0">
@@ -456,9 +477,10 @@ const Product = () => {
               onClick={(e) =>
                { e.stopPropagation()
                  handleImageNavigation("prev")}}
-              className="absolute left-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition">
+              className="absolute left-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition cursor-pointer">
               <FaArrowLeft />
             </button>
+            <img src={Img} alt="" />
                 <img
                   className="max-w-[70%] max-h-[80%] object-contain rounded-lg shadow-lg"
                   src={selectedImage}
@@ -466,7 +488,7 @@ const Product = () => {
             <button
               onClick={(e) =>{e.stopPropagation()
                  handleImageNavigation("next")}}
-              className="absolute right-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition">
+              className="absolute right-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition cursor-pointer">
               <FaArrowRight />
             </button>
               </div>

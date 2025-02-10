@@ -94,7 +94,7 @@ const Category = () => {
            <button
       onClick={createProduct}
       className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">
-      Add New Category
+      Yangi mahsulot qoshish
     </button>
         </div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-lg overflow-hidden">
@@ -103,7 +103,7 @@ const Category = () => {
               <th scope="col" className="p-3 text-center">Nomi (UZ)</th>
               <th scope="col" className="p-3 text-center">Nomi (RU)</th>
               <th scope="col" className="p-3 text-center">Nomi (EN)</th>
-              <th scope="col" className="p-3 text-center">Amal</th>
+              <th scope="col" className="p-3 text-center">Amallar</th>
             </tr>
           </thead>
           <tbody>
