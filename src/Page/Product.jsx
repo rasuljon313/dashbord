@@ -328,9 +328,9 @@ const Product = () => {
                   <td className="px-2 py-1 text-black w-[100px] text-[10px]">
                     <div className="flex space-x-2 items-center justify-center">
   {product?.imageUrls.length > 0 ? (
-    <img className="max-h-[55px] w-[75px] object-contain" src={product?.imageUrls[0]} alt="Product img" />
+    <img className="max-h-[55px] w-[75px] object-contain border border-transparent rounded-lg" src={product?.imageUrls[0]} alt="Product img" />
   ) : (
-    <span className="flex items-center justify-center text-center w-[75px] h-[55px] border border-gray-300">
+    <span className="flex items-center justify-center text-center  w-[75px] h-[55px] border rounded-lg border-gray-300">
       Rasm mavjud emas
     </span>
   )}
