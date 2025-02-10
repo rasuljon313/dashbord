@@ -421,7 +421,7 @@ const Product = () => {
             <div className="w-full flex justify-center">
             <img src={selectedProduct?.imageUrl} className="w-[200px]" alt="" />
             </div>
-            <div className="flex gap-3 overflow-x-auto justify-center items-center mt-[10px]">
+            <div className="flex gap-3 overflow-x-auto items-center mt-[10px]">
               {selectedProduct?.imageUrls.map((imageUrl) => (
                 <div key={imageUrl} className="flex-shrink-0">
                   <p className="flex items-center gap-5 text-[18px] mb-[10px]">
