@@ -313,7 +313,7 @@ const Modal = () => {
         multiple
         disabled={editMode}
         />
-        {!editMode &&  <p className="text-[12px]">{multiple.length+1}</p>}
+        {!editMode &&  <p className="text-[12px]">{multiple.length > 0 ? multiple.length : 0}</p>}
       <div className="flex flex-wrap gap-2 w-[100px]">
         {editMode && multiple.map((img, index) => (<img key={index} src={img} alt={`Uploaded ${index}`} className="w-10 h-10 object-contain" />))}
     <div className="flex flex-wrap gap-2 w-full">

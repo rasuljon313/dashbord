@@ -320,8 +320,6 @@ const Product = () => {
                   </td>
                   <td className="px-2 py-1 text-black w-[200px] text-[10px] text-center leading-[12px]">
                     {a.find((category) => category?.id === product?.category?.id)?.nameUz || "Unknown"}
-                    {/* {a.find((category) => category?.id === editCategory)?.nameUz} */}
-                    {/* {foundCategory} */}
                   </td>
                   <td className="px-2 py-1 text-black w-[100px] text-[10px]">
                     <div className="flex space-x-2">
@@ -333,9 +331,19 @@ const Product = () => {
                     </div>
                   </td>
                   <td className="px-2 py-1 text-black w-[100px] text-[10px]">
-                    <div className="flex space-x-2">
-                      {product?.imageUrls.length > 0 ? <img src={product?.imageUrls[0]} alt="Product img" /> : "No Picture"}
-                    </div>
+                    {/* <div className="flex space-x-2">
+                      {product?.imageUrls.length > 0 ? <img className="max-h-[55px] w-[75px] object-contain" src={product?.imageUrls[0]} alt="Product img" /> : "No Picture"}
+                    </div> */}
+                    <div className="flex space-x-2 items-center justify-center">
+  {product?.imageUrls.length > 0 ? (
+    <img className="max-h-[55px] w-[75px] object-contain" src={product?.imageUrls[0]} alt="Product img" />
+  ) : (
+    <span className="flex items-center justify-center w-[75px] h-[55px] border border-gray-300">
+      No Picture
+    </span>
+  )}
+</div>
+
                   </td>
                   <td className="px-2 py-1 text-black w-[120px] text-center text-[10px] leading-[12px]">
                     {product?.sizes?.[0]?.size || "N/A"}
