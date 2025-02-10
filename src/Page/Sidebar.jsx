@@ -8,6 +8,7 @@ import Modal from "../components/Modal"
 import DelateModal from "../components/DelateModal";
 import CategoryM from "../components/CategoryM";
 import logo from "../assets/Chinar Mebel (1).png";
+import toast from "react-hot-toast";
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false); 
   // const [selectedKeys, setSelectedKeys] = useState(["1"]);
@@ -23,6 +24,9 @@ const  delatetoken = (e) => {
    localStorage.removeItem("token")
     navigate("/login")
   window.location.reload();
+  toast.success('Muvaffaqiyatli bajarildi! 🎉',{
+    duration: 5000,
+  });
 }
 const [selectedKeys, setSelectedKeys] = useState(() => {
   const savedKey = localStorage.getItem("selectedSidebarKey");
@@ -68,7 +72,7 @@ useEffect(() => {
           ? "opacity-0 hidden"
           : "opacity-100 block"
       }`}>
-      Product
+      Mahsulot
     </span>
   </li>
 </Link>
@@ -88,7 +92,7 @@ useEffect(() => {
           ? "opacity-0 hidden"
           : "opacity-100 block"
       }`}>
-      Categories
+      Kategoriya
     </span>
   </li>
 </Link>
@@ -114,7 +118,7 @@ useEffect(() => {
     <button
       onClick={(e)=>delatetoken(e)}
       className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">
-      log out
+      Chiqish
     </button>
   </div>
 

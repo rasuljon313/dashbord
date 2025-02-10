@@ -122,11 +122,11 @@ const [loading, setLoading] = useState(false);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl p-8 rounded-2xl shadow-xl bg-gray-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={closeModal}>
+      <div className="relative w-full max-w-2xl p-8 rounded-2xl shadow-xl bg-gray-200" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between pb-4 border-b border-gray-300">
           <h3 className="text-2xl font-semibold text-gray-800">
-            {loading ? "Loading..." : editModeCategory ? "Edit Name" : "Create New Name"}
+            {loading ? "Loading..." : editModeCategory ? " Nomini tahrirlash" : "Yangi nom qoshish"}
           </h3>
           <button
             onClick={closeModal}
@@ -138,7 +138,7 @@ const [loading, setLoading] = useState(false);
           <div className="grid grid-cols-3 gap-6">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">
-                Name (UZ)
+                Nomi (UZ)
               </label>
               <input
                 name="nameUz"
@@ -152,7 +152,7 @@ const [loading, setLoading] = useState(false);
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">
-                Name (RU)
+              Nomi (RU)
               </label>
               <input
                 name="nameRu"
@@ -166,7 +166,7 @@ const [loading, setLoading] = useState(false);
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">
-                Name (EN)
+              Nomi (EN)
               </label>
               <input
                 name="nameEn"
@@ -183,7 +183,7 @@ const [loading, setLoading] = useState(false);
             type="submit"
             className="transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red"
           >
-            {loading ? "Loading..." : editModeCategory ? "Update Name" : "Add Name"}
+            {loading ? "Loading..." : editModeCategory ? "Nomoni yangilash" : "Nom qo‘shish"}
           </button>
         </form>
       </div>

@@ -227,11 +227,14 @@ const Product = () => {
 <select
   className="bg-gray-200 text-gray-500 rounded-lg outline-none px-4 py-2 text-sm w-[255px] transition-all ease-in-out duration-200 appearance-none "
   value={selectedCategoryId}
-  onChange={handleCategoryChange}
->
-  <option value="" className="text-gray-500">
+  onChange={handleCategoryChange}>
+  {/* <option value="" className="text-gray-500">
     Choose category
-  </option>
+  </option> */}
+    <option value="" disabled hidden>
+    Kategoriyani tanlang
+    </option>
+    <option value="">Barcha kategoriyalar</option>
   {a.length > 0 ? (
     a.map((category) => (
       <option key={category.id} value={category.id} className="bg-white text-black hover:bg-gray-200">
@@ -246,7 +249,7 @@ const Product = () => {
           <div className="ml-auto relative">
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Qidirish..."
               className="bg-gray-200 border-0 rounded-lg outline-none px-3 py-2 text-sm w-64 pr-10"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -255,9 +258,8 @@ const Product = () => {
           </div>
           <button
             onClick={createProduct}
-            className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500"
-          >
-            Add New Product
+            className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">
+            Yangi mahsulot qo‘shish
           </button>
         </div>
 
@@ -268,34 +270,34 @@ const Product = () => {
                 <AiOutlineFieldNumber className="text-[16px] font-bold" />
               </th>
               <th scope="col" className="px-2 py-3 w-[180px] text-center text-[10px]">
-                Name
+              Nomi
               </th>
               <th scope="col" className="px-2 py-3 w-[200px] text-center text-[10px]">
-                Description
+              Tavsif
               </th>
               <th scope="col" className="px-2 py-3 text-center text-[10px]">
-                Category
+              Kategoriya
               </th>
               <th scope="col" className="px-2 py-3 w-[150px] text-center text-[10px]">
-                Base Img
+              Asosiy rasm
               </th>
               <th scope="col" className="px-2 py-3 w-[150px] text-center text-[10px]">
-                Option Img
+              Qo‘shimcha rasmlar
               </th>
               <th scope="col" className="px-2 py-3 w-[120px] text-center text-[10px]">
-                Size
+              O‘lcham
               </th>
               <th scope="col" className="px-2 py-3 w-[100px] text-center text-[10px]">
-                Table
+              Stol
               </th>
               <th scope="col" className="px-2 py-3 w-[100px] text-center text-[10px]">
-                Chair
+              Stul
               </th>
               <th scope="col" className="px-2 py-3 text-center text-[10px]">
-                Price
+              Narx
               </th>
               <th scope="col" className="px-2 py-3 text-center text-[10px]">
-                Action
+              Amal
               </th>
             </tr>
           </thead>
@@ -339,7 +341,7 @@ const Product = () => {
     <img className="max-h-[55px] w-[75px] object-contain" src={product?.imageUrls[0]} alt="Product img" />
   ) : (
     <span className="flex items-center justify-center w-[75px] h-[55px] border border-gray-300">
-      No Picture
+      Rasim yoq
     </span>
   )}
 </div>
@@ -404,27 +406,27 @@ const Product = () => {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
           onClick={closeModal}>
           <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-96" onClick={(e) => e.stopPropagation()}>
-            <p className="text-[16px] mb-4">
-              <strong className="mr-1">Name:</strong>
+            <p className="text-[16px] mb-[6px]">
+              <strong className="mr-1">Nomi:</strong>
               {selectedProduct.nameUz}
             </p>
             <p className="text-[14px] mb-[3px]">
-              <strong>Description:</strong> {selectedProduct?.descriptionUz}
+              <strong>Tavsif:</strong> {selectedProduct?.descriptionUz}
             </p>
             <p className="text-[14px] mb-[3px]">
-              <strong>Category:</strong> {selectedProduct?.category?.nameUz}
+              <strong>Kategoriya:</strong> {selectedProduct?.category?.nameUz}
             </p>
-            <p className="text-[14px] mb-[10px]">
-              <strong>Size:</strong> {selectedProduct?.sizes?.[0]?.size}
+            <p className="text-[14px] mb-[3px]">
+              <strong>O‘lcham:</strong> {selectedProduct?.sizes?.[0]?.size}
             </p>
-            <p className="text-[14px] mb-[10px]">
-              <strong>Table:</strong> {selectedProduct?.sizes?.[0]?.table}
+            <p className="text-[14px] mb-[3px]">
+              <strong>Stol:</strong> {selectedProduct?.sizes?.[0]?.table}
             </p>
-            <p className="text-[14px] mb-[10px]">
-              <strong>Chair:</strong> {selectedProduct?.sizes?.[0]?.chair}
+            <p className="text-[14px] mb-[3px]">
+              <strong>Stul:</strong> {selectedProduct?.sizes?.[0]?.chair}
             </p>
-            <p className="text-[14px] mb-[10px]">
-              <strong>Price:</strong> {selectedProduct?.sizes?.[0]?.price}
+            <p className="text-[14px] mb-[3px]">
+              <strong>Narx:</strong> {selectedProduct?.sizes?.[0]?.price}
             </p>
             <div className="flex gap-3 overflow-x-auto">
               {selectedProduct?.imageUrls.map((imageUrl) => (
@@ -444,14 +446,16 @@ const Product = () => {
             {isOpen && (
               <div
                 className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
-                onClick={(e) => e.stopPropagation()}>
+                onClick={() => setIsOpen(false)}>
                 <button
                   className="absolute top-5 right-5 cursor-pointer px-3 py-1 rounded-full text-lg shadow-lg"
                   onClick={() => setIsOpen(false)}>
                   <IoIosCloseCircleOutline className="text-red-500 w-[30px] h-[30px]" />
                 </button>
                 <button
-              onClick={() => handleImageNavigation("prev")}
+              onClick={(e) =>
+               { e.stopPropagation()
+                 handleImageNavigation("prev")}}
               className="absolute left-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition">
               <FaArrowLeft />
             </button>
@@ -460,26 +464,17 @@ const Product = () => {
                   src={selectedImage}
                   alt="Enlarged"/>
             <button
-              onClick={() => handleImageNavigation("next")}
+              onClick={(e) =>{e.stopPropagation()
+                 handleImageNavigation("next")}}
               className="absolute right-5 text-white text-4xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition">
               <FaArrowRight />
             </button>
               </div>
             )}
-            {
-  products && 
-  <ul>
-                {products.map((product) => (
-                  <li key={product.id}>{product.nameUz}</li>
-                ))}
-              </ul>
-
-            }
             <button
               onClick={closeModal}
-              className="transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red"
-            >
-              Close
+              className="transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center dark:hover:text-red">
+              Yopish
             </button>
           </div>
         </div>

@@ -100,10 +100,10 @@ const Category = () => {
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-lg overflow-hidden">
           <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-white-700 dark:text-black">
             <tr>
-              <th scope="col" className="p-3 text-center">NameUZ</th>
-              <th scope="col" className="p-3 text-center">NameRU</th>
-              <th scope="col" className="p-3 text-center">NameEN</th>
-              <th scope="col" className="p-3 text-center">Action</th>
+              <th scope="col" className="p-3 text-center">Nomi (UZ)</th>
+              <th scope="col" className="p-3 text-center">Nomi (RU)</th>
+              <th scope="col" className="p-3 text-center">Nomi (EN)</th>
+              <th scope="col" className="p-3 text-center">Amal</th>
             </tr>
           </thead>
           <tbody>
@@ -151,10 +151,10 @@ const Category = () => {
       {modalOpen && selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={closeModal}>
           <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-96" onClick={(e) => e.stopPropagation()}>
-            <p className="text-[16px] mb-4"><strong className="mr-1">NameUz: </strong>{selectedProduct.nameUz}</p>
-            <p className="text-[14px] mb-[3px]"><strong>NameRu: </strong> {selectedProduct.nameRu}</p>
-            <p className="text-[14px] mb-[3px]"><strong>NameEN:</strong> {selectedProduct.nameEn}</p>
-            <button onClick={closeModal} className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">Close</button>
+            <p className="text-[16px] mb-4"><strong className="mr-1">Nomi(Uz): </strong>{selectedProduct.nameUz}</p>
+            <p className="text-[14px] mb-[3px]"><strong>Nomi(Ru): </strong> {selectedProduct.nameRu}</p>
+            <p className="text-[14px] mb-[3px]"><strong>Nomi(En):</strong> {selectedProduct.nameEn}</p>
+            <button onClick={closeModal} className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">Yopish</button>
           </div>
         </div>
       )}

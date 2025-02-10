@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import tree from "../assets/2025-01-28 15.42.39.jpg";
@@ -30,17 +30,24 @@ const Login = () => {
         if (accessToken ) {
                     localStorage.setItem('token', accessToken);
                     navigate("/"); 
+                    toast.success('Muvaffaqiyatli! 🎉',{
+                      duration: 5000,
+                    });
             } else {
               setError(true)
         }
       } else {
-        toast.error(response?.data?.message || "Username or password is wrong");
+        toast.error(error,{
+          duration: 5000,
+        });
         setError(true)
       }
     })
     .catch((error) => {
       setError(true);
-      toast.error(error?.response?.data?.message || "Error occurred while logging in");
+      toast.error(error,"Error occurred while logging in",{
+        duration: 5000,
+      });
     })
     .finally(() => {
       setLoading(false);
