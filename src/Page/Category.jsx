@@ -151,7 +151,7 @@ const Category = () => {
       {modalOpen && selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={closeModal}>
           <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-96" onClick={(e) => e.stopPropagation()}>
-            <p className="text-[16px] mb-4"><strong className="mr-1">Nomi(Uz): </strong>{selectedProduct.nameUz}</p>
+            <p className="text-[14px] mb-[3px]"><strong className="mr-1">Nomi(Uz): </strong>{selectedProduct.nameUz}</p>
             <p className="text-[14px] mb-[3px]"><strong>Nomi(Ru): </strong> {selectedProduct.nameRu}</p>
             <p className="text-[14px] mb-[3px]"><strong>Nomi(En):</strong> {selectedProduct.nameEn}</p>
             <button onClick={closeModal} className="px-4 py-2 text-sm bg-gray-400 text-white rounded cursor-pointer transition-all duration-400 hover:bg-gray-500">Yopish</button>
