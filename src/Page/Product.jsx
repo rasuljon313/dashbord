@@ -6,6 +6,7 @@ import axios from "axios";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { AiOutlineFieldNumber } from "react-icons/ai";
 import { IoEyeOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Product = () => {
   const {
@@ -41,7 +42,7 @@ const Product = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
+  const navigate = useNavigate()
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
     setIsOpen(true);
@@ -384,6 +385,9 @@ const Product = () => {
               <tr>
                 <td colSpan="10" className="text-center py-4 text-lg font-semibold">
                   Mahsulot topilmadi
+                  {
+                    navigate("/login")
+                  }
                 </td>
               </tr>
             )}
