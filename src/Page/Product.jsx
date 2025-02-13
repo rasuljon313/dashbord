@@ -6,6 +6,7 @@ import axios from "axios";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { AiOutlineFieldNumber } from "react-icons/ai";
 import { IoEyeOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 
 const Product = () => {
@@ -42,7 +43,7 @@ const Product = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
     setIsOpen(true);
@@ -61,6 +62,7 @@ const Product = () => {
       serResponse(response.data.data);
     } catch (error) {
       console.error("Xatolik yuz berdi:", error);
+      navigate("/login")
     } finally {
       setLoading(false);
     }

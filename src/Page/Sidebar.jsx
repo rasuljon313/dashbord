@@ -32,6 +32,12 @@ const [selectedKeys, setSelectedKeys] = useState(() => {
   const savedKey = localStorage.getItem("selectedSidebarKey");
   return savedKey ? [savedKey] : ["1"];
 });
+useEffect(() => {
+  if (!localStorage.getItem("token")) {
+    navigate("/login")
+  }
+// eslint-disable-next-line react-hooks/exhaustive-deps
+},[])
 
 useEffect(() => {
   localStorage.setItem("selectedSidebarKey", selectedKeys[0]);
