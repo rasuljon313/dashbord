@@ -385,9 +385,9 @@ const Product = () => {
               <tr>
                 <td colSpan="10" className="text-center py-4 text-lg font-semibold">
                   Mahsulot topilmadi
-                  {
+                  {/* {
                     navigate("/login")
-                  }
+                  } */}
                 </td>
               </tr>
             )}
