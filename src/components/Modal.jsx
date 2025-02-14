@@ -368,19 +368,28 @@ const Modal = () => {
                   onChange={(e) => setSelectedPrice(e.target.value)}
                   className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"/>
               </div>
-            <button
-  type="button"
-  required
-  onClick={handleAddSize}
-  className="transition-all duration-600 max-h-[50px] bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center">
-  O‘lcham qo‘shish
-</button>
+              <input
+    type="file"
+    onChange={(e) => choseSingleImg(e)}
+    className="bg-white border-0 rounded-lg outline-none px-2 py-1 text-[12px] w-[185px]"
+    required
+    />
           </div>
           {/* <button
             type="submit"
             className="transition-all duration-600 bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center">
             {loading ? "Loading..." : editMode ? "Update Product" : "Add Product"}
           </button> */}
+          <div className=" flex items-center justify-center">
+          <button
+          
+  type="button"
+  required
+  onClick={handleAddSize}
+  className="transition-all duration-600 max-h-[50px] w-[200px] bg-gray-400 text-white px-[15px] py-[8px] shadow-2xl hover:shadow-[0_10px_25px_rgba(0,0,0,0.2)] hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center">
+  O‘lcham qo‘shish
+</button>
+          </div>
 <button
       type="submit"
       disabled={sizes.length === 0}

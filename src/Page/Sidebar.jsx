@@ -9,10 +9,11 @@ import DelateModal from "../components/DelateModal";
 import CategoryM from "../components/CategoryM";
 import logo from "../assets/Chinar Mebel (1).png";
 import toast from "react-hot-toast";
+import Pdfmodal from "../components/Pdfmodal";
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false); 
   // const [selectedKeys, setSelectedKeys] = useState(["1"]);
-  const {isOpen,editMode, delate,isOpenCategory,editModeCategory } = create()
+  const {isOpen,editMode, delate,isOpenCategory,editModeCategory,getPdf } = create()
   const navigate = useNavigate("")
   // const d = localStorage.getItem("refresh_token")
   // useEffect(() => {
@@ -42,6 +43,7 @@ useEffect(() => {
 useEffect(() => {
   localStorage.setItem("selectedSidebarKey", selectedKeys[0]);
 }, [selectedKeys]); 
+console.log(getPdf);
 
 
   return (
@@ -134,6 +136,7 @@ useEffect(() => {
         { delate && <DelateModal/>}
         {isOpenCategory && <CategoryM/>}
         {editModeCategory && <CategoryM/>}
+        {getPdf && <Pdfmodal/>}
       </div>
     </div>
   );

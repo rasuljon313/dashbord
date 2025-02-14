@@ -70,6 +70,9 @@ const useSidebarStore = create((set) => ({
   
   getImg: "",
   setGetimg: (product) => set(() => ({ getImg: product })),
+
+  getPdf: false,
+  setGetPdf: (product) => set(() => ({ getPdf: product })),
   
   editIdUrl: "",
   setSelectIDUrl: (id) => set(() => ({ editIdUrl: id })),

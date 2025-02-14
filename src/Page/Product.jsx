@@ -31,6 +31,7 @@ const Product = () => {
     setDelatee,
     toggleIsOpen,
     setSizes,
+    setGetPdf
   } = useSidebarStore();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -225,6 +226,8 @@ const Product = () => {
     <>
       <div className="relative px-4">
         <div className="flex gap-[50px] mb-[15px]">
+        <button   className="bg-gray-400 hover:bg-gray-500 text-[12px] text-white transition-all duration-400 rounded-lg outline-none px-1 py-2 w-[150px]"
+ onClick={() => setGetPdf(true)} > Katalog yuklash </button>
 <select
   className="bg-gray-200 text-gray-500 rounded-lg outline-none px-4 py-2 text-sm w-[255px] transition-all ease-in-out duration-200 appearance-none "
   value={selectedCategoryId ?? "all"}
@@ -241,7 +244,6 @@ const Product = () => {
     <option disabled>Yuklanmoqda...</option>
   )}
 </select>
-
           <div className="ml-auto relative">
             <input
               type="text"
