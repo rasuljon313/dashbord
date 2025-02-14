@@ -24,18 +24,17 @@ const Login = () => {
       const status = response?.status;
       const accessToken = response?.data?.access_token;
       
-      
       if (status === 200 || status === 201) {
   
         if (accessToken ) {
                     localStorage.setItem('token', accessToken);
-                    navigate("/"); 
                     toast.success('Muvaffaqiyatli! 🎉',{
                       duration: 5000,
                     });
             } else {
               setError(true)
         }
+        navigate("/"); 
       } else {
         toast.error(error,{
           duration: 5000,
@@ -45,14 +44,13 @@ const Login = () => {
     })
     .catch((error) => {
       setError(true);
-      toast.error(error,"Error occurred while logging in",{
+      const errorMessage = error.response?.data?.message || "Login yoki parol noto‘g‘ri!";
+      toast.error(errorMessage, {
         duration: 5000,
       });
     })
     .finally(() => {
       setLoading(false);
-      setNumber('');
-      setPassword('');
     });
   }
   
