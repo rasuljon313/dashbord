@@ -28,7 +28,7 @@ const Login = () => {
   
         if (accessToken ) {
                     localStorage.setItem('token', accessToken);
-                    toast.success('Muvaffaqiyatli! 🎉',{
+                    toast.success('Muvaffaqiyatli bajarildi! 🎉',{
                       duration: 5000,
                     });
             } else {
