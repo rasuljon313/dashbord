@@ -25,9 +25,6 @@ const  delatetoken = (e) => {
    localStorage.removeItem("token")
     navigate("/login")
   window.location.reload();
-  toast.success('Muvaffaqiyatli bajarildi! 🎉',{
-    duration: 5000,
-  });
 }
 const [selectedKeys, setSelectedKeys] = useState(() => {
   const savedKey = localStorage.getItem("selectedSidebarKey");
